@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicinska škola Hipokrat — Novi Sad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0b1f3a;
+    --teal: #00a896;
+    --teal-dark: #007a6e;
+    --coral: #f4623a;
+    --cream: #f7f4ef;
+    --white: #ffffff;
+    --gray: #6b7280;
+    --light: #e8e4de;
+    --text: #1a2332;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 70px;
+    background: rgba(11,31,58,0.97);
+    backdrop-filter: blur(12px);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.3); }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 500;
+    letter-spacing: .3px;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+
+  .nav-cta {
+    background: var(--coral);
+    color: var(--white) !important;
+    padding: .5rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: background .2s, transform .1s !important;
+  }
+  .nav-cta:hover { background: #d94e27 !important; transform: translateY(-1px); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white);
+    transition: all .3s;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0;
+    background: var(--navy);
+    padding: 1.5rem 5vw 2rem;
+    z-index: 99;
+    flex-direction: column; gap: 1rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: rgba(255,255,255,.85);
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 500;
+    padding: .4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .mobile-menu .nav-cta {
+    display: inline-block;
+    margin-top: .5rem;
+    text-align: center;
+    padding: .75rem;
+    border-radius: 8px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy) url('images/building.jpg') center -35% / cover no-repeat;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 120px 5vw 80px;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,168,150,.2) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(244,98,58,.1) 0%, transparent 60%),
+      linear-gradient(rgba(11,31,58,.62), rgba(11,31,58,.62));
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; opacity: .04;
+    background-image:
+      linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 700px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,168,150,.35);
+    border: 1px solid rgba(0,168,150,.85);
+    color: #7ef0e4;
+    font-size: .8rem; font-weight: 600;
+    letter-spacing: .8px; text-transform: uppercase;
+    padding: .4rem .9rem; border-radius: 100px;
+    margin-bottom: 2rem;
+    animation: fadeUp .6s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--teal);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s .1s ease both;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,.65);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--coral);
+    color: var(--white);
+    padding: .85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .95rem;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(244,98,58,.3);
+  }
+  .btn-primary:hover {
+    background: #d94e27;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(244,98,58,.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: .85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .95rem;
+    border: 1px solid rgba(255,255,255,.25);
+    transition: border-color .2s, background .2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--teal);
+    background: rgba(0,168,150,.1);
+  }
+
+  .hero-float {
+    position: absolute; right: 5vw; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 1rem;
+    animation: fadeLeft .7s .4s ease both;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    backdrop-filter: blur(20px);
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 150px;
+  }
+  .stat-card .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: #7ef0e4;
+    display: block;
+  }
+  .stat-card .lbl {
+    font-size: .78rem;
+    color: rgba(255,255,255,.95);
+    letter-spacing: .3px;
+  }
+
+  /* ── TRUST BAR ── */
+  #trust {
+    background: var(--teal);
+    padding: 1.2rem 5vw;
+    display: flex; align-items: center;
+    justify-content: center; gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: .6rem;
+    color: var(--white);
+    font-size: .88rem; font-weight: 500;
+  }
+  .trust-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 90px 5vw; }
+
+  .section-label {
+    display: inline-block;
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: .75rem;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--white);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--gray);
+    line-height: 1.8;
+    margin-top: 1.2rem;
+    font-size: .97rem;
+  }
+  .about-highlights {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+    margin-top: 2rem;
+  }
+  .highlight-chip {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: flex; align-items: flex-start; gap: .7rem;
+  }
+  .highlight-chip svg { width: 20px; height: 20px; color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+  .highlight-chip p { font-size: .83rem; font-weight: 600; color: var(--navy); line-height: 1.4; }
+
+  .about-visual {
+    position: relative;
+  }
+  .about-card-main {
+    background: var(--navy);
+    border-radius: 20px 20px 0 0;
+    padding: 3rem;
+    color: var(--white);
+    position: relative; overflow: hidden;
+  }
+  .about-card-main::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(0,168,150,.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .about-card-main h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; margin-bottom: .5rem;
+  }
+  .about-card-main p { color: rgba(255,255,255,.65); font-size: .9rem; line-height: 1.7; }
+  .about-card-main .big-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem;
+    color: var(--teal);
+    line-height: 1;
+    margin: 1.5rem 0 .3rem;
+  }
+
+  .about-badge {
+    background: var(--coral);
+    color: var(--white);
+    border-radius: 0 0 20px 20px;
+    padding: .9rem 2rem;
+    font-size: .85rem; font-weight: 600;
+    display: flex; align-items: center; gap: .6rem;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 8px 24px rgba(244,98,58,.25);
+  }
+
+  /* ── PROGRAMS ── */
+  #programs { background: var(--cream); }
+
+  .programs-header {
+    margin-bottom: 2rem;
+  }
+
+  .mode-tabs {
+    display: flex; gap: 0;
+    border: 2px solid var(--navy);
+    border-radius: 10px;
+    overflow: hidden;
+    width: fit-content;
+    margin: 1.5rem 0 1rem;
+  }
+  .mode-btn {
+    background: transparent;
+    border: none;
+    color: var(--navy);
+    padding: .6rem 1.8rem;
+    font-size: .9rem; font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: .2px;
+  }
+  .mode-btn.active {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .mode-btn:not(.active):hover {
+    background: var(--light);
+  }
+
+  .mode-panel { display: none; }
+  .mode-panel.active { display: block; }
+
+  .stepen-section { margin-bottom: 2.5rem; }
+  .stepen-label {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .78rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--teal-dark);
+    border-left: 3px solid var(--teal);
+    padding-left: .75rem;
+    margin-bottom: 1rem;
+  }
+
+  .filter-tabs {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .filter-btn {
+    background: var(--white);
+    border: 1px solid var(--light);
+    color: var(--gray);
+    padding: .45rem 1rem;
+    border-radius: 100px;
+    font-size: .83rem; font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+  }
+
+  .vanredno-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .vanr-type-card {
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border-top: 3px solid var(--teal);
+  }
+  .vanr-type-card h4 {
+    font-size: .95rem; font-weight: 700;
+    color: var(--navy); margin-bottom: .4rem;
+  }
+  .vanr-type-card p {
+    font-size: .82rem; color: var(--gray); line-height: 1.6;
+  }
+
+  /* ── SCHOOL BLOCKS ── */
+  .school-block { margin-bottom: 3.5rem; }
+  .school-header {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 1.4rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .school-header-icon {
+    width: 46px; height: 46px; flex-shrink: 0;
+    background: rgba(255,255,255,.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal);
+  }
+  .school-header-icon svg { width: 24px; height: 24px; }
+  .school-header-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; color: var(--white);
+    margin-bottom: .2rem;
+  }
+  .school-header-areas {
+    font-size: .78rem; color: rgba(255,255,255,.5);
+    letter-spacing: .2px;
+  }
+
+  .prog-hint {
+    display: block;
+    font-size: .72rem; font-weight: 600;
+    color: var(--teal);
+    margin-top: .75rem;
+    letter-spacing: .2px;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(11,31,58,.6);
+    backdrop-filter: blur(4px);
+    z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s;
+  }
+  .modal-overlay.open {
+    opacity: 1; pointer-events: all;
+  }
+  .modal-box {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 520px; width: 100%;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform .25s;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-overlay.open .modal-box {
+    transform: translateY(0);
+  }
+  .modal-close {
+    position: absolute; top: 1.2rem; right: 1.4rem;
+    background: var(--cream);
+    border: none; border-radius: 50%;
+    width: 32px; height: 32px;
+    font-size: 1.1rem; line-height: 1;
+    cursor: pointer; color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .modal-close:hover { background: var(--light); }
+  .modal-skola {
+    font-size: .72rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--teal); display: block; margin-bottom: .6rem;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem; color: var(--navy);
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .modal-badges {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1.4rem; flex-wrap: wrap;
+  }
+  .modal-duration {
+    font-size: .78rem; color: var(--gray); font-weight: 500;
+  }
+  .modal-opis {
+    font-size: .92rem; color: var(--text);
+    line-height: 1.75; margin-bottom: 1.5rem;
+  }
+  .modal-career {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .modal-career-label {
+    font-size: .72rem; font-weight: 700;
+    letter-spacing: .8px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: .4rem;
+  }
+  .modal-career p {
+    font-size: .88rem; color: var(--navy); line-height: 1.6;
+  }
+  .modal-cta { display: inline-block; text-decoration: none; }
+
+  .modal-img {
+    height: 180px;
+    margin: -2.5rem -2.5rem 2rem;
+    border-radius: 12px 12px 0 0;
+    background: linear-gradient(135deg, var(--navy) 0%, #1a4a6e 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-img-icon { width: 72px; height: 72px; color: rgba(255,255,255,.15); }
+  .modal-links {
+    display: flex; gap: .75rem; flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .modal-link {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .55rem 1rem;
+    border: 1.5px solid var(--light);
+    border-radius: 8px;
+    font-size: .82rem; font-weight: 600;
+    color: var(--navy); text-decoration: none;
+    transition: border-color .2s, background .2s;
+  }
+  .modal-link:hover { border-color: var(--teal); background: var(--cream); }
+  .modal-link svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--teal); }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .prog-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid var(--light);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    cursor: pointer;
+  }
+  .prog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.08);
+    border-color: var(--teal);
+  }
+  .prog-icon {
+    width: 44px; height: 44px;
+    background: rgba(0,168,150,.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--teal);
+  }
+  .prog-icon svg { width: 22px; height: 22px; }
+  .prog-card h4 {
+    font-size: .95rem; font-weight: 600;
+    color: var(--navy); margin-bottom: .5rem;
+    line-height: 1.35;
+  }
+  .prog-badge {
+    display: inline-block;
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: .5px; text-transform: uppercase;
+    padding: .2rem .6rem;
+    border-radius: 4px;
+  }
+  .badge-iv { background: rgba(0,168,150,.12); color: var(--teal-dark); }
+  .badge-iii { background: rgba(244,98,58,.1); color: #c04a1f; }
+  .badge-v { background: rgba(11,31,58,.1); color: var(--navy); }
+
+  /* ── WHY ── */
+  #why { background: var(--navy); }
+  #why h2, #why .section-label { color: var(--white); }
+  #why .section-sub { color: rgba(255,255,255,.5); }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .why-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: background .2s, border-color .2s;
+  }
+  .why-card:hover {
+    background: rgba(0,168,150,.1);
+    border-color: rgba(0,168,150,.3);
+  }
+  .why-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--teal);
+    opacity: .4;
+    line-height: 1;
+    margin-bottom: .75rem;
+  }
+  .why-card h3 {
+    font-size: 1rem; font-weight: 600;
+    color: var(--white); margin-bottom: .6rem;
+  }
+  .why-card p {
+    font-size: .85rem;
+    color: rgba(255,255,255,.5);
+    line-height: 1.7;
+  }
+
+  /* ── ENROLLMENT CTA ── */
+  #enroll {
+    background: var(--coral);
+    padding: 70px 5vw;
+    text-align: center;
+  }
+  #enroll h2 { color: var(--white); }
+  #enroll p { color: rgba(255,255,255,.8); margin: 1rem auto 2rem; max-width: 500px; }
+  .btn-white {
+    background: var(--white);
+    color: var(--coral);
+    padding: .9rem 2.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: .95rem;
+    display: inline-block;
+    transition: transform .15s, box-shadow .2s;
+  }
+  .btn-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,.2);
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--white); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .testi-card {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+  .testi-card::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 5rem;
+    color: var(--teal);
+    opacity: .2;
+    position: absolute;
+    top: .5rem; left: 1.5rem;
+    line-height: 1;
+  }
+  .testi-card p {
+    font-size: .92rem;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .testi-author {
+    display: flex; align-items: center; gap: .75rem;
+    margin-top: auto;
+  }
+  .testi-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .testi-name { font-size: .88rem; font-weight: 600; color: var(--navy); }
+  .testi-role { font-size: .78rem; color: var(--gray); }
+
+  /* ── NEWS ── */
+  #news { background: var(--cream); }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .news-card {
+    background: var(--white);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--light);
+    transition: transform .2s, box-shadow .2s;
+    display: flex; flex-direction: column;
+  }
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.08);
+  }
+  .news-img {
+    height: 200px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1a4a6e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .news-img img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .news-img::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(11,31,58,.65) 0%, transparent 55%);
+  }
+  .news-date {
+    background: var(--teal);
+    color: var(--white);
+    font-size: .72rem; font-weight: 700;
+    letter-spacing: .5px;
+    padding: .25rem .6rem;
+    border-radius: 4px;
+    position: absolute; z-index: 2;
+    bottom: .9rem; right: .9rem;
+  }
+  .news-body { padding: 1.3rem; flex: 1; }
+  .news-body h4 {
+    font-size: .95rem; font-weight: 600;
+    color: var(--navy); line-height: 1.4;
+    margin-bottom: .5rem;
+  }
+  .news-body p { font-size: .83rem; color: var(--gray); line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--white); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+  .contact-info h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem; color: var(--navy);
+    margin-bottom: 1.5rem;
+  }
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 1.3rem;
+  }
+  .contact-icon {
+    width: 38px; height: 38px;
+    background: rgba(0,168,150,.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal); flex-shrink: 0;
+  }
+  .contact-icon svg { width: 18px; height: 18px; }
+  .contact-item-text .lbl {
+    font-size: .75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .8px;
+    color: var(--gray); margin-bottom: .2rem;
+  }
+  .contact-item-text p, .contact-item-text a {
+    font-size: .9rem; color: var(--navy);
+    text-decoration: none; line-height: 1.5;
+  }
+  .contact-item-text a:hover { color: var(--teal); }
+
+  .contact-form {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+  .contact-form h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem; color: var(--navy);
+    margin-bottom: 1.5rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block;
+    font-size: .78rem; font-weight: 600;
+    color: var(--gray); margin-bottom: .4rem;
+    letter-spacing: .3px;
+  }
+  .form-group input, .form-group textarea {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    padding: .7rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    color: var(--text);
+    transition: border-color .2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--teal);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .btn-form {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: .85rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem; font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background .2s, transform .15s;
+  }
+  .btn-form:hover { background: var(--teal); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    padding: 60px 5vw 30px;
+    color: rgba(255,255,255,.6);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    margin-bottom: 2rem;
+  }
+  .footer-brand p {
+    font-size: .88rem;
+    line-height: 1.7;
+    margin: 1rem 0 1.5rem;
+  }
+  .social-links { display: flex; gap: .75rem; }
+  .social-link {
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,.08);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.6);
+    text-decoration: none;
+    transition: background .2s, color .2s;
+    font-size: .75rem; font-weight: 700;
+  }
+  .social-link:hover { background: var(--teal); color: var(--white); }
+  .footer-col h4 {
+    color: var(--white);
+    font-size: .85rem; font-weight: 700;
+    letter-spacing: .5px; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: .6rem; }
+  .footer-col ul a {
+    color: rgba(255,255,255,.55);
+    text-decoration: none; font-size: .85rem;
+    transition: color .2s;
+  }
+  .footer-col ul a:hover { color: var(--teal); }
+  .footer-bottom {
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 1rem;
+    font-size: .8rem;
+  }
+  .footer-bottom a { color: var(--teal); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-float { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    #trust { gap: 1.5rem; }
+    .why-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  }
+  @media (max-width: 700px) {
+    .mode-tabs { width: 100%; }
+    .mode-btn { flex: 1; font-size: .83rem; padding: .6rem .8rem; }
+    .programs-grid { grid-template-columns: 1fr 1fr; }
+    .vanredno-types { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 60px 4vw; }
+    #hero {
+      padding: 100px 4vw 60px;
+      background-position: 60% 15%;
+      background-size: cover;
+    }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .about-highlights { grid-template-columns: 1fr; }
+    .programs-grid { grid-template-columns: 1fr; }
+    .vanredno-types { grid-template-columns: 1fr; }
+    .hero-btns { flex-direction: column; }
+    .hero-btns a { text-align: center; }
+    .contact-form { padding: 1.5rem; }
+    .modal-box { padding: 1.5rem; border-radius: 16px; }
+    .modal-img { margin: -1.5rem -1.5rem 1.5rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .news-grid { grid-template-columns: 1fr; }
+    #trust { gap: 1rem; padding: 1rem 4vw; }
+    .trust-item { font-size: .82rem; }
+    .why-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 400px) {
+    h1 { font-size: 2.4rem; }
+    .about-badge { flex-wrap: wrap; }
+    .mode-btn { font-size: .78rem; padding: .55rem .5rem; }
+  }
+  @media (max-width: 600px) {
+    .hero-bg {
+      background:
+        linear-gradient(rgba(11,31,58,.50), rgba(11,31,58,.50));
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="images/logo.png" alt="Medicinska škola Hipokrat Novi Sad">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">O školi</a></li>
+    <li><a href="#programs">Smerovi</a></li>
+    <li><a href="#why">Zašto mi</a></li>
+    <li><a href="#news">Novosti</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+    <li><a href="#contact" class="nav-cta">Upiši se</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">O školi</a>
+  <a href="#programs" onclick="toggleMenu()">Smerovi obrazovanja</a>
+  <a href="#why" onclick="toggleMenu()">Zašto Hipokrat</a>
+  <a href="#news" onclick="toggleMenu()">Novosti</a>
+  <a href="#contact" onclick="toggleMenu()">Kontakt</a>
+  <a href="#contact" class="nav-cta" onclick="toggleMenu()">Upiši se →</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">Upis u toku — 2026/2027</div>
+    <h1>Obrazovanje koje<br><em>otvara vrata</em><br>budućnosti.</h1>
+    <p class="hero-sub">Jedina privatna medicinska škola čija diploma je priznata u Crnoj Gori i zemljama EU. Upis bez stresa — ocene ne odlučuju.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Upiši se danas →</a>
+      <a href="#programs" class="btn-secondary">Pogledaj smerove</a>
+    </div>
+  </div>
+  <div class="hero-float">
+    <div class="stat-card">
+      <span class="num">55+</span>
+      <span class="lbl">sertifikovanih nastavnika</span>
+    </div>
+    <div class="stat-card">
+      <span class="num">673</span>
+      <span class="lbl">upisanih učenika</span>
+    </div>
+    <div class="stat-card">
+      <span class="num">98%</span>
+      <span class="lbl">prolaznost</span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div id="trust">
+  <div class="trust-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+    Akreditovana škola
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+    Diploma priznata u EU i CG
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+    Upis bez bodova
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    Mali razredi, individualni pristup
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <span class="section-label">O nama</span>
+      <h2>Privatna medicinska škola u Novom Sadu</h2>
+      <p>Medicinska škola Hipokrat u Novom Sadu je privatna srednja škola sa dugogodišnjim iskustvom u obrazovanju medicinskih kadrova. Naša misija je da svakom učeniku pružimo kvalitetno obrazovanje uz individualni pristup i podršku stručnog tima.</p>
+      <p>Primenjujemo aktivne metode učenja koje pomažu pri boljem razumevanju gradiva, razvoju praktičnih veština i pripremi za realni svet rada.</p>
+      <div class="about-highlights">
+        <div class="highlight-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <p>Redovno, vanredno i uporedno školovanje</p>
+        </div>
+        <div class="highlight-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <p>Stručni i posvećeni nastavnici</p>
+        </div>
+        <div class="highlight-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <p>Praktična nastava i radionice</p>
+        </div>
+        <div class="highlight-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <p>Savremeni pristupi učenju</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal reveal-delay-2">
+      <div class="about-card-main">
+        <h3>Stremimo ka izvrsnosti</h3>
+        <p>Naša diploma otvara vrata ka daljem obrazovanju i zapošljavanju — u Srbiji, Crnoj Gori i Evropskoj uniji.</p>
+        <div class="big-num">673</div>
+        <p>učenika koji su upisani i grade uspešnu karijeru zahvaljujući Medicinskoj školi Hipokrat.</p>
+      </div>
+      <div class="about-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0;opacity:.9"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Jedina privatna škola sa diplomom priznatom u Evropi i Crnoj Gori
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="programs-header reveal">
+    <span class="section-label">Smerovi obrazovanja</span>
+    <h2>Izaberi svoju<br>budućnost</h2>
+    <p class="section-sub" style="margin-top:.5rem;">Klikni na smjer za više detalja.</p>
+    <div class="mode-tabs">
+      <button class="mode-btn active" onclick="switchMode('redovno', this)">Redovno školovanje</button>
+      <button class="mode-btn" onclick="switchMode('vanredno', this)">Vanredno školovanje</button>
+    </div>
+  </div>
+  <!-- REDOVNO panel -->
+  <div class="mode-panel active" id="panel-redovno">
+
+    <div class="stepen-section">
+      <div class="stepen-label">Zdravstvo i socijalna zaštita</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Medicinska sestra – tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Medicinska sestra-tehničar radi na promociji zdravlja, prevenciji i lečenju bolesti. Obavlja osnove medicinske nege — praćenje vitalnih funkcija, asistencija u terapijskim procedurama, primena lekova i vođenje medicinske dokumentacije u bolnicama, ambulantama i domovima zdravlja." data-posao="Bolnica, dom zdravlja, ambulanta, hitna pomoć, privatna klinika, dom za stare." data-plan="http://www.skolahipokrat.edu.rs/smerovi-obrazovanja/medicinska-sestra-tehnicar/" data-pitanja="pitanja/med-sestra-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8v6h6v8h-6v6H8v-6H2v-8h6V2z"/></svg></div>
+          <h4>Medicinska sestra – tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Fizioterapeutski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Fizioterapeutski tehničar primenjuje fizikalne procedure u rehabilitaciji i lečenju pacijenata: masažu, elektroterapiju, hidroterapiju i kineziterapiju. Radi pod nadzorom starijih fizioterapeuta u rehabilitacionim centrima i bolnicama. Za ovaj poziv potrebni su strpljenje i izdržljivost." data-posao="Bolnica, rehabilitacioni centar, privatna ordinacija, sportski klub, banja." data-plan="http://www.skolahipokrat.edu.rs/wp-content/uploads/2013/12/FZT-2015.pdf" data-pitanja="pitanja/fizioterapeutski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><path d="M8 9h8"/><path d="M8 9l-2 9"/><path d="M16 9l2 9"/><path d="M10 9v3l2 1 2-1V9"/></svg></div>
+          <h4>Fizioterapeutski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Farmaceutski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Farmaceutski tehničar je jedno od najpopularnijih zanimanja. Program stavlja naglasak na teorijska znanja i praktične kompetencije: rad s farmaceutskom opremom, merenje, pakovanje i etiketiranje lekova, farmaceutsko-tehnološke operacije, prijem i skladištenje farmaceutskih proizvoda." data-posao="Apoteka, bolnička apoteka, farmaceutska kompanija, laboratorija." data-plan="http://www.skolahipokrat.edu.rs/farmaceutski-tehnicar/" data-pitanja="pitanja/farmaceutski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.5 20.5L3.5 13.5a5 5 0 117-7l7 7a5 5 0 11-7 7z"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+          <h4>Farmaceutski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Medicinska sestra vaspitač" data-stepen="IV stepen" data-duration="4 godine" data-opis="Medicinska sestra vaspitač radi u jaslicama sa zdravom decom uzrasta 1–3 godine na poslovima nege i vaspitanja. Brine o prijemu dece, higijenskim procedurama, ishrani, pripremi preventivnih pregleda, saradnji s roditeljima i planiranju vaspitno-obrazovnih aktivnosti." data-posao="Jaslice, vrtić, dečji dom, predškolska ustanova, bolnica – dečje odeljenje." data-plan="http://www.skolahipokrat.edu.rs/files/MSV.pdf" data-pitanja="pitanja/med-sestra-vaspitac.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><polyline points="16 11 18 13 22 9"/></svg></div>
+          <h4>Medicinska sestra vaspitač</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Kozmetički tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Kozmetički tehničar obavlja terapeutske i estetske tretmane lica i tela: negu kože, masažu, hidro-procedure, fototerapiju, elektroterapiju, elektroepilaciju i krioterapiju. Program priprema za samostalan rad u kozmetičkim salonima i SPA centrima." data-posao="Kozmetički salon, SPA centar, hotel, privatna praksa." data-plan="http://www.skolahipokrat.edu.rs/wp-content/uploads/2013/12/KZT-2015.pdf" data-pitanja="pitanja/kozmeticki-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><line x1="20.5" y1="3.5" x2="3.5" y2="20.5"/><path d="M6 9l6 6"/></svg></div>
+          <h4>Kozmetički tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Stomatološka sestra – tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Stomatološka sestra-tehničar asistira stomatologu u svim fazama zahvata: priprema pacijenta i radnog mesta, sterilizacija i dezinfekcija instrumenata, mešanje materijala, vođenje dokumentacije, održavanje opreme i pružanje prve pomoći." data-posao="Stomatološka ordinacija, bolnica – stomatološko odeljenje, klinika." data-plan="http://www.skolahipokrat.edu.rs/stomatoloska-sestra-tehnicar/" data-pitanja="pitanja/stomatoloska-sestra.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 4.5C6.5 3 7.5 2 9 2c1 0 2 .5 3 1.5 1-1 2-1.5 3-1.5 1.5 0 2.5 1 2.5 2.5 0 2.5-1.5 5.5-2 8-.3 1.5-.5 4-2 4s-1.5-2.5-2-4c-.5 1.5-.5 4-2 4S9.3 14 9 12.5C8.5 10 7 7 6.5 4.5z"/></svg></div>
+          <h4>Stomatološka sestra – tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Laboratorijski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Laboratorijski tehničar radi s biološkim materijalima u medicinskim, biohemijskim i farmaceutskim laboratorijama. Obavlja: prijem pacijenata i uzorkovanje, pripremu reagenasa, biohemijske analize krvi i urina, hematološke i bakteriološke analize. Posao zahteva preciznost i stručnost." data-posao="Bolnička laboratorija, biohemijska laboratorija, zavod za javno zdravlje, farmaceutska kompanija." data-plan="http://www.skolahipokrat.edu.rs/laboratorijski-tehnicar/" data-pitanja="pitanja/laboratorijski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v6l4.5 7.5a1 1 0 01-.86 1.5H5.36a1 1 0 01-.86-1.5L9 9V3z"/><line x1="6.5" y1="3" x2="17.5" y2="3"/></svg></div>
+          <h4>Laboratorijski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Zdravstveni negovatelj" data-stepen="III stepen" data-duration="3 godine" data-opis="Zdravstveni negovatelj pruža osnovnu zdravstvenu negu nepokretnim i polupokretnim pacijentima pod nadzorom medicinskog osoblja. Odgovornosti: sređivanje kreveta, preokretanje pacijenata, higijenu, oblačenje, ishranu i praćenje stanja. Program ima 40% praktičnih vežbi." data-posao="Dom za stare, bolnica, kućna nega, dom zdravlja, socijalne ustanove." data-plan="http://www.skolahipokrat.edu.rs/zdravstveni-negovatelj/" data-pitanja="pitanja/zdravstveni-negovatelj.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 00-4 0v5"/><path d="M14 10V4a2 2 0 00-4 0v6"/><path d="M10 10.5V6a2 2 0 00-4 0v8"/><path d="M18 8a2 2 0 014 0v6a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 012.83-2.82L7 15"/></svg></div>
+          <h4>Zdravstveni negovatelj</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stepen-section">
+      <div class="stepen-label">Ekonomija, pravo i administracija</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Ekonomski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Ekonomski tehničar istražuje kako društvo koristi ograničene resurse — sirovine, rad i kapital — za proizvodnju dobara i usluga. Analizira troškove, cene, zaposlenost i ekonomske trendove za preduzeća, banke, fondove i državne institucije." data-posao="Preduzeće, banka, osiguravajuće društvo, računovodstvena agencija, javna ustanova." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/06/Ekonomski_tehnicar_9_2019.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/06/EKONOMSKI-TEHNICAR-2019-v3.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <h4>Ekonomski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Carinski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Carinski tehničar obavlja poslove carinske administracije i kontrole međunarodne trgovine. Program je usmeren na modernizaciju carinske službe, prilagođavanje EU standardima i liberalizovanu trgovinu Srbije s inostranstvom." data-posao="Carinska uprava, spedicija, logistička kompanija, uvozno-izvozna firma." data-plan="http://www.skolahipokrat.edu.rs/smerovi-obrazovanja/carinski-tehnicar/" data-pitanja="pitanja/carinski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg></div>
+          <h4>Carinski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stepen-section">
+      <div class="stepen-label">Gimnazija</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Gimnazija opšteg smera" data-stepen="IV stepen" data-duration="4 godine" data-opis="Gimnazija opšteg smera pruža sveobuhvatno opšte obrazovanje iz prirodnih i društvenih nauka. Razvija kritičko mišljenje i naučni pristup i priprema učenike za upis na bilo koji fakultet ili visokoškolsku ustanovu." data-posao="Sve visokoškolske ustanove i fakulteti u Srbiji i inostranstvu." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/Gimnazija-opsti-tip.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/Gimnazija-ispitna-pitanja.docx">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg></div>
+          <h4>Gimnazija opšteg smera</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /panel-redovno -->
+
+  <!-- VANREDNO panel -->
+  <div class="mode-panel" id="panel-vanredno">
+    <p style="color:var(--gray); font-size:.95rem; line-height:1.7; max-width:620px; margin-bottom:2rem;">
+      Vanredno školovanje nudi fleksibilno sticanje kvalifikacija za odrasle i lica koja žele promenu zanimanja. Svi programi redovnog školovanja dostupni su i u vanrednom obliku.
+    </p>
+
+    <div class="vanredno-types">
+      <div class="vanr-type-card reveal">
+        <h4>Stručno osposobljavanje</h4>
+        <p>Sticanje III ili IV stepena stručne spreme nakon završene osnovne škole, za lica bez srednje škole.</p>
+      </div>
+      <div class="vanr-type-card reveal reveal-delay-1">
+        <h4>Prekvalifikacija</h4>
+        <p>Promena zanimanja za lica koja su završila trogodišnju ili četvorogodišnju srednju školu. Trajanje: 1–2 godine.</p>
+      </div>
+      <div class="vanr-type-card reveal reveal-delay-2">
+        <h4>Dokvalifikacija</h4>
+        <p>Prelazak sa III na IV stepen unutar iste ili srodne struke. Trajanje: 1 godina.</p>
+      </div>
+      <div class="vanr-type-card reveal">
+        <h4>Specijalizacija (V stepen)</h4>
+        <p>Napredne medicinske specijalizacije za tehničare sa IV stepenom. Trajanje: 1 godina.</p>
+      </div>
+    </div>
+
+    <div class="stepen-section">
+      <div class="stepen-label">IV stepen — 4 godine</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Finansijski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Finansijski tehničar vodi poslovne knjige, izrađuje finansijske izveštaje i planira budžet preduzeća. Program obuhvata bankarske operacije, poreski sistem i upravljanje finansijama organizacija." data-posao="Banka, finansijska institucija, računovodstvena agencija, preduzeće, osiguranje." data-plan="" data-pitanja="pitanja/finansijski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <h4>Finansijski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Pravno-poslovni tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Pravno-poslovni tehničar obavlja poslove pravno-poslovne administracije: obradu dokumentacije, pripremu pravnih akata, kadrovsku administraciju i organizaciju poslovnih aktivnosti. Program obuhvata građansko, radno i privredno pravo." data-posao="Advokatura, sud, javna uprava, preduzeće, notarska kancelarija." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2021/06/Pravno_poslovni_tehnicar_6_2019.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/06/PRAVNO-POSLOVNI-TEHNICAR-v2.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><polyline points="5 5 12 7 19 5"/><path d="M5 5l-2 6h4L5 5z"/><path d="M19 5l2 6h-4L19 5z"/><line x1="4" y1="21" x2="20" y2="21"/></svg></div>
+          <h4>Pravno-poslovni tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Tehničar obezbeđenja" data-stepen="IV stepen" data-duration="4 godine" data-opis="Tehničar obezbeđenja organizuje fizičko i tehničko obezbeđenje, upravlja sistemima video-nadzora i kontrole pristupa, izrađuje planove zaštite imovine i procenjuje bezbednosne rizike. Program uključuje krizni menadžment i zakonsku regulativu." data-posao="Agencija za obezbeđenje, kompanija, javna ustanova, aerodrom, tržni centar." data-plan="" data-pitanja="pitanja/tehnicar-obezbedjenja.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h4>Tehničar obezbeđenja</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Trgovinski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Trgovinski tehničar organizuje i nadzire prodajne procese u maloprodajnim i veleprodajnim objektima. Program obuhvata ekonomiku trgovine, marketing, upravljanje zalihama, analizu tržišta i poslovanje s kupcima. Priprema za vodeće uloge u trgovinskoj branši." data-posao="Maloprodajni lanac, veleprodaja, tržni centar, e-commerce, uvozno-izvozna firma." data-plan="" data-pitanja="">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+          <h4>Trgovinski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Komercijalni tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Komercijalni tehničar obavlja poslove nabavke, prodaje i plasmana robe na domaćem i inostranom tržištu. Program obuhvata ekonomiku preduzeća, marketing, spoljnotrgovinsko poslovanje i osnove privrednog prava. Komercijalni tehničar je ključna karika između proizvođača i kupca." data-posao="Preduzeće, uvozno-izvozna firma, logistika, maloprodaja, veleprodaja." data-plan="" data-pitanja="">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="8" y1="14" x2="16" y2="14"/></svg></div>
+          <h4>Komercijalni tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Turistički tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Turistički tehničar organizuje i prodaje turističke aranžmane, posreduje u ugostiteljskim uslugama i koordinira posete kulturnim destinacijama. Za ovaj poziv su neophodne odlične organizatorske sposobnosti, komunikativnost i znanje stranih jezika." data-posao="Turistička agencija, hotel, kongresni centar, aerodrom, turoperator." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/09/TURISTICKI-TEHNICAR-11_2022.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/09/TURISTICKI-TEHNICAR-v2.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+          <h4>Turistički tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Kulinarski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Kulinarski tehničar priprema složena jela, kreira menije i vodi kuhinju restorana. Program uključuje nutricionizam, sanitarnu higijenu i upravljanje kuhinjskim osobljem. Razvija kreativnost i visoke standarde gastronomske struke." data-posao="Restoran, hotel, catering kompanija, privatna kuhinja." data-plan="" data-pitanja="pitanja/kulinarski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>
+          <h4>Kulinarski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Ugostiteljski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Ugostiteljski tehničar organizuje ugostiteljske usluge, opsluži goste i upravlja ugostiteljskim objektom. Program uključuje somelijerstvo, bonton, recepcijsko poslovanje i upravljanje pansionskim uslugama." data-posao="Hotel, restoran, bar, catering, kongresni centar." data-plan="" data-pitanja="pitanja/ugostiteljski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+          <h4>Ugostiteljski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Tehničar drumskog saobraćaja" data-stepen="IV stepen" data-duration="4 godine" data-opis="Tehničar drumskog saobraćaja organizuje prevoz putnika i tereta, upravlja saobraćajnom logistikom i brine o bezbednosti u drumskom saobraćaju. Program uključuje obaveznu vozačku obuku za kategoriju B i poznavanje vozačke psihologije." data-posao="Transportna kompanija, logistika, autobusni prevoz, MUP, vozačka škola." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2021/06/TEHNICAR_DRUMSKOG_SAOBRACAJA_2018_4_2019-17.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/05/TDS-stari-i-novi-plan.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <h4>Tehničar drumskog saobraćaja</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Tehničar zaštite od požara" data-stepen="IV stepen" data-duration="4 godine" data-opis="Tehničar zaštite od požara pokriva dve oblasti: preventivne mere (fizičko-hemijska svojstva zapaljivih materijala, analiza požarnog opterećenja) i gašenje požara (teorija gorenja, vatrogasna oprema, taktika gašenja). Program stavlja naglasak na timski rad i disciplinu." data-posao="Vatrogasna služba, preduzeće, fabrika, javna ustanova, protivpožarna inspekcija." data-plan="" data-pitanja="pitanja/tehnicar-zastite-od-pozara.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></div>
+          <h4>Tehničar zaštite od požara</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Tehničar vuče" data-stepen="IV stepen" data-duration="4 godine" data-opis="Tehničar vuče upravlja i održava lokomotive i šinska vozila u železničkom saobraćaju. Program obuhvata elektrotehničke sisteme lokomotive, principe železničkog saobraćaja i bezbednost vučnih sistema." data-posao="Srpske železnice, privatni železnički operateri, industrijska postrojenja." data-plan="" data-pitanja="pitanja/tehnicar-vuce.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="12" rx="2"/><circle cx="7" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M7 16v2M17 16v2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M5 7h3M5 13h3"/></svg></div>
+          <h4>Tehničar vuče</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Tehničar tehničko kolske delatnosti" data-stepen="IV stepen" data-duration="4 godine" data-opis="Tehničar tehničko-kolske delatnosti vrši tehničke preglede vozila i brine o ispravnosti kočionih, svetlosnih i upravljačkih sistema. Program uključuje dijagnostiku šinskih vozila, zakonsku regulativu i standarde tehničke ispravnosti u železničkom saobraćaju." data-posao="Stanica za tehnički pregled, železnička infrastruktura, saobraćajno preduzeće." data-plan="" data-pitanja="pitanja/tehnicar-tkd.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4>Tehničar tehničko kolske delatnosti</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Saobraćajno-transportni tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Saobraćajno-transportni tehničar planira i organizuje prevoz putnika i robe u javnom saobraćaju. Program obuhvata planiranje linija, tarifni sistem, upravljanje voznim parkom i organizaciju gradskog i prigradskog prevoza." data-posao="Javno transportno preduzeće, gradski saobraćaj, logistička kompanija, MUP." data-plan="" data-pitanja="pitanja/saobracajno-transportni-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <h4>Saobraćajno-transportni tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Transportni komercijalista" data-stepen="IV stepen" data-duration="4 godine" data-opis="Transportni komercijalista obavlja komercijalne poslove u transportnim i špediterskim preduzećima: priprema prevozne isprave, organizuje otpremu i dopremu robe, prati stanje voznog parka i komunicira s poslovnim partnerima." data-posao="Špediterska kompanija, logistika, transportno preduzeće, carinska agencija." data-plan="" data-pitanja="pitanja/transportni-komercijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h4>Transportni komercijalista</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Mašinski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Mašinski tehničar planira i nadzire metaloprerađivačke operacije, projektuje mašinske elemente i upravljač procesima u industrijskom okruženju. Program razvija preciznost, odgovornost i komunikacijske sposobnosti." data-posao="Fabrika, servis mašina, građevinska kompanija, auto-industrija." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/MASINSKI-TEHNICAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Masinski-tehnicar2.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+          <h4>Mašinski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Geodetski tehničar" data-stepen="IV stepen" data-duration="4 godine" data-opis="Geodetski tehničar vrši premer terena, obrađuje geodetske podatke za katastar i inženjering. Kompetencije obuhvataju topografska snimanja, GPS i GIS tehnologije, uspostavljanje katastra i inženjering-geodetska merenja." data-posao="Geodetski zavod, građevinska kompanija, lokalna samouprava, projektni biro." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/GEODETSKI-TEHNICAR-GEOMETAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Geodetski-tehnicar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+          <h4>Geodetski tehničar</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Izvođač instalaterskih i završnih građevinskih radova" data-stepen="IV stepen" data-duration="4 godine" data-opis="Izvođač instalaterskih i završnih građevinskih radova izvodi elektroinstalacije, vodovodne i kanalizacione instalacije, grejanje i klimatizaciju u stambenim i poslovnim objektima. Program obuhvata projektovanje i izvođenje instalaterskih sistema prema tehničkim normama." data-posao="Građevinska firma, instalaterska kompanija, komunalno preduzeće, privatna praksa." data-plan="" data-pitanja="pitanja/izvodjac-instalaterskih-radova.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h4>Izvođač instalaterskih i završnih građevinskih radova</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Elektrotehničar energetike" data-stepen="IV stepen" data-duration="4 godine" data-opis="Elektrotehničar energetike instalira i održava elektroenergetske sisteme i elektroinstalaterske radove. Program obuhvata električna postrojenja, merenja, zaštitne sisteme i bezbednost pri radu pod naponom." data-posao="Elektroprivreda, fabrika, građevinska firma, elektroinstalaterska kompanija." data-plan="" data-pitanja="pitanja/elektrotehnicar-energetike.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h4>Elektrotehničar energetike</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Elektrotehničar računara" data-stepen="IV stepen" data-duration="4 godine" data-opis="Elektrotehničar računara instalira, konfiguriše i održava računarske sisteme i mreže. Program uključuje operativne sisteme, mrežnu bezbednost, hardversku dijagnostiku i programerske osnove." data-posao="IT kompanija, servis elektronike, preduzeće, škola, telekomunikacije." data-plan="" data-pitanja="pitanja/elektrotehnicar-racunara.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h4>Elektrotehničar računara</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Filološka gimnazija" data-stepen="IV stepen" data-duration="4 godine" data-opis="Filološka gimnazija pruža opšte obrazovanje s profilisanjem u jezike i književnost. Intenzivna nastava stranih jezika priprema učenike za studije filologije, prevođenja i humanističkih nauka." data-posao="Fakultet filologije, prevođenje, novinarstvo, diplomatija, nastava." data-plan="" data-pitanja="">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+          <h4>Filološka gimnazija</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Gimnazija opšteg smera" data-stepen="IV stepen" data-duration="4 godine" data-opis="Gimnazija opšteg smera pruža sveobuhvatno opšte obrazovanje iz prirodnih i društvenih nauka. Razvija kritičko mišljenje i naučni pristup i priprema učenike za upis na bilo koji fakultet ili visokoškolsku ustanovu." data-posao="Sve visokoškolske ustanove i fakulteti u Srbiji i inostranstvu." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/Gimnazija-opsti-tip.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/Gimnazija-ispitna-pitanja.docx">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg></div>
+          <h4>Gimnazija opšteg smera</h4><span class="prog-badge badge-iv">IV stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stepen-section">
+      <div class="stepen-label">III stepen — 3 godine</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Kuvar" data-stepen="III stepen" data-duration="3 godine" data-opis="Kuvar priprema sve vrste toplih i hladnih jela, odabira i priprema namirnice, određuje tehnologiju prerade i komponuje menije. Radi u prehrambenu industriji ili samostalnim ugostiteljskim objektima. Na svaka 6 meseci obavlja sanitarni pregled." data-posao="Restoran, hotel, kantina, catering, fast food, bolnica." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/10/KUVAR.pdf" data-pitanja="pitanja/kuvar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>
+          <h4>Kuvar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Konobar" data-stepen="III stepen" data-duration="3 godine" data-opis="Konobar opsluži goste u ugostiteljskim objektima: servira hranu i piće, postavlja i sklanja stolove, vrši naplatu i preporučuje specijalitete. Komunikativnost, ljubaznost i uredan izgled su ključni za uspeh u ovom pozivu." data-posao="Kafić, restoran, hotel, catering, krstarica." data-plan="" data-pitanja="pitanja/konobar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 22h8M7 3h10"/><path d="M7 3a5 5 0 005 7 5 5 0 005-7"/><path d="M12 10v12"/></svg></div>
+          <h4>Konobar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Poslastičar" data-stepen="III stepen" data-duration="3 godine" data-opis="Poslastičar ručno ili s električnom opremom izrađuje torte, kreme, sladolede i konditorsku robu. Radi u industrijskoj proizvodnji, poslastičarnicama i hotelskim kuhinjama. Posao zahteva finu motoriku, dobro oko za detalje i razvijen osećaj za ukus i boju." data-posao="Poslastičarnica, pekara, restoran, hotel, privatna radionica." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/POSLASTICAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2013/12/POSLASTICAR-III-stepen1.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-3 0-5 1.5-5 4 0 1.7.9 3.1 2.3 3.8L9 17h6l-.3-7.2C16.1 9.1 17 7.7 17 6c0-2.5-2-4-5-4z"/><line x1="7" y1="17" x2="17" y2="17"/><path d="M7 20h10a1 1 0 010 2H7a1 1 0 010-2z"/></svg></div>
+          <h4>Poslastičar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Vozač motornih vozila" data-stepen="III stepen" data-duration="3 godine" data-opis="Vozač motornih vozila upravlja putničkim, teretnim i zglobnim vozilima. Program uključuje osnove održavanja vozila i obaveznu prevoznu dokumentaciju. Završetkom programa stiče se osnova za profesionalnu vozačku karijeru." data-posao="Transportna kompanija, autobusni prevoz, dostava, taxi." data-plan="" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/05/Vozac-motornih-vozila-III-stepen-v2.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="9"/></svg></div>
+          <h4>Vozač motornih vozila</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Mesar" data-stepen="III stepen" data-duration="3 godine" data-opis="Mesar se osposobljava za obradu, preradu i prodaju mesa i mesnih prerađevina. Ključne kompetencije: klanje, rasecanje i priprema mesa, upravljanje mesnicicom. Program uključuje HACCP standarde i prehrambenu higijenu." data-posao="Mesara, klanica, prehrambena industrija, supermarket." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/MESAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Mesar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M8 13v6M12 13v6M16 13v6M4 18h16"/></svg></div>
+          <h4>Mesar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Pekar" data-stepen="III stepen" data-duration="3 godine" data-opis="Pekar priprema i peče hleb, peciva, pite i testa. Program obuhvata različite vrste brašna, fermentaciju, pripremu raznih vrsta testa i organizaciju pekarske proizvodnje. Uključuje HACCP principe i standarde bezbednosti hrane." data-posao="Pekara, fabrika hleba, hotel, restoran, konditorska industrija." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/PEKAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Pekar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V2"/><path d="M12 8C9.5 6 6 6.5 6 6.5S5.5 10 8 12M12 8c2.5-2 6-1.5 6-1.5S18.5 10 16 12"/><path d="M12 14c-2.5-2-6-1.5-6-1.5S5.5 17.5 8 19.5M12 14c2.5-2 6-1.5 6-1.5S18.5 17.5 16 19.5"/></svg></div>
+          <h4>Pekar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Bravar-zavarivač" data-stepen="III stepen" data-duration="3 godine" data-opis="Bravar-zavarivač planira i izvodi zavarivačke operacije, izrađuje metalne konstrukcije i sklapa metalne delove metodama REL, MIG, MAG, TIG, gasno zavarivanje i tvrdo lemljenje. Vrši kontrolu kvaliteta zavarenih spojeva." data-posao="Fabrika, automehanička radionica, brodogradilište, metalska industrija." data-plan="" data-pitanja="pitanja/bravar-zavarivac.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/><circle cx="7" cy="7" r="2"/></svg></div>
+          <h4>Bravar-zavarivač</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Mašinbravar" data-stepen="III stepen" data-duration="3 godine" data-opis="Mašinbravar montira, demontira i popravlja mašinske sklopove, ležajeve i prenosne mehanizme. Obavlja struganje, glodanje i merenja. Radi u industrijskim preduzećima ili privatnim radionicama." data-posao="Fabrika, servisna radionica, industrija, energetika." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/MASINBRAVAR.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Masinbravar-III1.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+          <h4>Mašinbravar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Automehaničar" data-stepen="III stepen" data-duration="3 godine" data-opis="Automehaničar instalira, održava i popravlja delove motornih vozila: dijagnostikuje kvarove, servisira kočione i upravljačke sisteme i vrši funkcionalna ispitivanja. Program uključuje OBD dijagnostiku i rad s modernom servisnom opremom." data-posao="Auto-servis, diler vozila, transportna kompanija, rent-a-car." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/06/MEHANICAR-MOTORNIH-VOZILA.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2023/06/Mehanicar-motornih-vozila-III-v2.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h4>Automehaničar</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Zidar-fasader" data-stepen="III stepen" data-duration="3 godine" data-opis="Zidar-fasader kombinuje tradicionalne zidarske veštine s modernim fasadnim radovima: zida nosive i pregradne zidove, malterisa i postavlja fasadne sisteme. Stara, cenjena struka s dobrim izgledima za zapošljavanje." data-posao="Građevinska kompanija, privatna praksa, komunalna preduzeća." data-plan="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/zidar.pdf" data-pitanja="http://www.skolasvnikola.edu.rs/wp-content/uploads/2014/09/Zidar-fasader.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h20M2 10h20M2 14h20M2 18h20M6 6v4M12 6v4M18 6v4M9 10v4M15 10v4M6 14v4M12 14v4M18 14v4"/></svg></div>
+          <h4>Zidar-fasader</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Armirač-betonirac" data-stepen="III stepen" data-duration="3 godine" data-opis="Armirač-betonirac postavlja armaturne mreže i šipke u oplatu i ugrađuje beton u konstrukcije mostova, zgrada i niskogradnje. Radi na infrastrukturnim i stambenim projektima." data-posao="Građevinska firma, niskogradnja, hidroizolacija, infrastrukturni projekti." data-plan="" data-pitanja="pitanja/armirac-betonirac.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><rect x="3" y="3" width="18" height="18"/></svg></div>
+          <h4>Armirač-betonirac</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Trgovac" data-stepen="III stepen" data-duration="3 godine" data-opis="Trgovac nudi robu kupcima, prezentuje karakteristike proizvoda i upravlja zalihama u maloprodajnim objektima. Radi u robnim kućama, specijalizovanim prodavnicama i malim prodavnicama. Komunikativnost, taktičnost i strpljenje su ključni za uspeh." data-posao="Prodavnica, supermarket, tržni centar, kiosk, online prodaja." data-plan="" data-pitanja="pitanja/trgovac.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+          <h4>Trgovac</h4><span class="prog-badge badge-iii">III stepen</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stepen-section">
+      <div class="stepen-label">V stepen — Specijalizacije (1 godina)</div>
+      <div class="programs-grid">
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Kuvar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Kuvar specijalista produbljuje znanje naprednih kulinarskih tehnika, kreira sofisticirane gastronomske menije i vodi kuhinjski tim. Program uključuje molekularnu gastronomiju, međunarodnu kuhinju i upravljanje restoranom." data-posao="Restoran visoke kategorije, hotel, catering, privatna kuhinja." data-plan="" data-pitanja="pitanja/kuvar-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg></div>
+          <h4>Kuvar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Konobar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Konobar specijalista savladava visoke standarde ugostiteljskog posluživanja, somelijerstvo, wine pairing i upravljanje restoranskim timom. Program priprema za rad u restoranima s Michelinovim zvezdicama i luksuznim hotelima." data-posao="Restoran visoke kategorije, luksuzni hotel, catering." data-plan="" data-pitanja="pitanja/konobar-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 22h8M7 3h10"/><path d="M7 3a5 5 0 005 7 5 5 0 005-7"/><path d="M12 10v12"/></svg></div>
+          <h4>Konobar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Poslastičar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Poslastičar specijalista izrađuje visoko zahtevne poslastičarske kreacije, upravlja poslastičarskom radionicom i uvodi inovativne tehnike u pripremi konditorske robe. Program razvija napredne veštine dekoracije i gastronomskog dizajna." data-posao="Poslastičarnica, hotel, restoran, konditorska industrija." data-plan="" data-pitanja="pitanja/poslasticar-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-3 0-5 1.5-5 4 0 1.7.9 3.1 2.3 3.8L9 17h6l-.3-7.2C16.1 9.1 17 7.7 17 6c0-2.5-2-4-5-4z"/><line x1="7" y1="17" x2="17" y2="17"/><path d="M7 20h10a1 1 0 010 2H7a1 1 0 010-2z"/></svg></div>
+          <h4>Poslastičar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Carinik" data-stepen="V stepen" data-duration="1 godina" data-opis="Carinik obavlja inspekciju robe na graničnim prelazima, procenjuje carinske obaveze i kontroliše spoljnotrgovinsku dokumentaciju. Program uključuje EU carinska pravila i procedure." data-posao="Carinska uprava, granični prelaz, luka." data-plan="" data-pitanja="pitanja/carinik-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg></div>
+          <h4>Carinik</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Poslovni sekretar" data-stepen="V stepen" data-duration="1 godina" data-opis="Poslovni sekretar koordinira administrativne aktivnosti menadžmenta, organizuje poslovne sastanke, vodi korespondenciju i upravlja poverljivom dokumentacijom. Program razvija organizacione i komunikacijske veštine." data-posao="Korporacija, javna institucija, diplomatija, advokatura." data-plan="" data-pitanja="pitanja/poslovni-sekretar.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></div>
+          <h4>Poslovni sekretar</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Organizator mesne kancelarije" data-stepen="V stepen" data-duration="1 godina" data-opis="Organizator mesne kancelarije koordinira administrativno-operativne poslove lokalne samouprave i mesnih zajednica. Program obuhvata javnu upravu, komunalne delatnosti i upravljanje lokalnim resursima." data-posao="Opština, mesna zajednica, javno preduzeće, lokalna samouprava." data-plan="" data-pitanja="pitanja/organizator-mesne-kancelarije.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h4>Organizator mesne kancelarije</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Trgovački menadžer" data-stepen="V stepen" data-duration="1 godina" data-opis="Trgovački menadžer planira i koordinira prodajne operacije, upravlja timovima prodavača i razvija strategije za povećanje prihoda. Program razvija rukovodne kompetencije u oblastima nabavke i maloprodaje." data-posao="Maloprodajni lanac, veleprodaja, tržni centar, e-commerce." data-plan="" data-pitanja="pitanja/trgovacki-menadzer.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+          <h4>Trgovački menadžer</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Organizator robnog prometa" data-stepen="V stepen" data-duration="1 godina" data-opis="Organizator robnog prometa planira i nadzire tok robe od dobavljača do kupca. Program uključuje upravljanje lancima snabdevanja, logistiku, skladištenje i optimizaciju troškova distribucije." data-posao="Distribucioni centar, logistička kompanija, veleprodaja, luka." data-plan="" data-pitanja="pitanja/organizator-robnog-prometa.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h4>Organizator robnog prometa</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Turistički organizator" data-stepen="V stepen" data-duration="1 godina" data-opis="Turistički organizator kreira, planira i realizuje turističke programe i pakete. Program obuhvata odabir destinacija, pregovaranje s hotelima i aviokompanijama, MICE turizam i upravljanje grupnim putovanjima." data-posao="Turistička agencija, hotel, avio-kompanija, kongresni centar." data-plan="" data-pitanja="pitanja/turisticki-organizator.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+          <h4>Turistički organizator</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Knjigovođa kontista" data-stepen="V stepen" data-duration="1 godina" data-opis="Knjigovođa kontista vodi poslovne knjige, vrši knjiženja poslovnih promena, sastavlja finansijske izveštaje i priprema poreske prijave. Program produbljuje znanje iz računovodstvenih standarda i poreskog zakonodavstva." data-posao="Računovodstvena agencija, banka, preduzeće, javna institucija." data-plan="" data-pitanja="pitanja/knjigodja-kontista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <h4>Knjigovođa kontista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Kontrolor u bankarstvu" data-stepen="V stepen" data-duration="1 godina" data-opis="Kontrolor u bankarstvu vrši unutrašnju kontrolu bankarskih operacija, prati usklađenost s regulativom i identifikuje rizike. Program obuhvata bankarsko pravo, reviziju i upravljanje kreditnim rizicima." data-posao="Banka, štedionica, finansijska institucija, regulatorno telo." data-plan="" data-pitanja="pitanja/kontrolor-bankarstvo.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h.01M10 15h.01"/></svg></div>
+          <h4>Kontrolor u bankarstvu</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Sudsko-administrativni izvršitelj" data-stepen="V stepen" data-duration="1 godina" data-opis="Sudsko-administrativni izvršitelj vrši izvršenje sudskih odluka, upisuje predmete i vodi sudske spise. Program obuhvata procesno pravo, izvršni postupak i administrativno pravo." data-posao="Sud, tužilaštvo, javno beležništvo, pravobranilaštvo." data-plan="" data-pitanja="">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><polyline points="5 5 12 7 19 5"/><path d="M5 5l-2 6h4L5 5z"/><path d="M19 5l2 6h-4L19 5z"/><line x1="4" y1="21" x2="20" y2="21"/></svg></div>
+          <h4>Sudsko-administrativni izvršitelj</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Procenitelj šteta u osiguranju" data-stepen="V stepen" data-duration="1 godina" data-opis="Procenitelj šteta u osiguranju utvrđuje visinu osiguranih šteta na osnovu uvida na licu mesta, dokumentacije i stručne analize. Program uključuje osiguranje imovine, lica i odgovornosti." data-posao="Osiguravajuće društvo, procenitelj, ekspertiza." data-plan="" data-pitanja="pitanja/procenitelj-steta.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4>Procenitelj šteta u osiguranju</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Organizator poslova obezbeđenja" data-stepen="V stepen" data-duration="1 godina" data-opis="Organizator poslova obezbeđenja rukovodi timom zaštitara, planira obezbeđenje objekata i događaja i koordinira krizne situacije. Program uključuje menadžment bezbednosti i zakonodavstvo o zaštiti." data-posao="Agencija za obezbeđenje, tržni centar, aerodrom, javna ustanova." data-plan="" data-pitanja="pitanja/organizator-obezbedjenja.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h4>Organizator poslova obezbeđenja</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Vatrogasac specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Vatrogasac specijalista gasi požare visokog intenziteta i rukovodi vatrogasnim timovima. Program uključuje naprednu taktiku gašenja, spašavanje iz visokih objekata i rad s tehničkim sredstvima za intervenciju." data-posao="Vatrogasno-spasilačka jedinica, preduzeće, javna ustanova." data-plan="" data-pitanja="pitanja/vatrogasac-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></div>
+          <h4>Vatrogasac specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Vozač instruktor" data-stepen="V stepen" data-duration="1 godina" data-opis="Vozač instruktor osposobljava kandidate za vozački ispit i pruža obuku vožnje u vozačkim školama. Program uključuje pedagogiju, psihologiju saobraćaja i zakonodavstvo o bezbednosti saobraćaja." data-posao="Vozačka škola, auto-moto savez, transportna kompanija." data-plan="" data-pitanja="pitanja/vozac-instruktor.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="9"/></svg></div>
+          <h4>Vozač instruktor</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Tehničar drumskog saobraćaja specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Specijalista drumskog saobraćaja razvija napredne kompetencije u planiranju i upravljanju transportnim sistemima, saobraćajnoj bezbednosti i regulativi EU transportnog sektora." data-posao="Ministarstvo saobraćaja, saobraćajno preduzeće, logistička kompanija." data-plan="" data-pitanja="pitanja/tds-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <h4>Tehničar drumskog saobraćaja specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Vozač motornih vozila specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Vozač motornih vozila specijalista stekao je napredne veštine upravljanja teretnim i zglobnim vozilima, ADR transportom opasnih materija i međunarodnim prevozom." data-posao="Međunarodni transport, ADR prevoznik, logistika, transportna kompanija." data-plan="" data-pitanja="pitanja/vmv-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="9"/></svg></div>
+          <h4>Vozač motornih vozila specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Saobraćajno-transportni tehničar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Specijalista saobraćajno-transportne delatnosti planira integrisane transportne mreže i rukovodi prevoznim operacijama na višem nivou. Program uključuje multimodalni transport i EU regulativu." data-posao="Javno transportno preduzeće, gradski prevoz, saobraćajni institut." data-plan="" data-pitanja="pitanja/saobracajno-transportni-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <h4>Saobraćajno-transportni tehničar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Transportni komercijalista specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Transportni komercijalista specijalista razvija napredne veštine u upravljanju špediterskim i logističkim poslovanjem, pregovaranju s partnerima i optimizaciji troškova transportnih lanaca." data-posao="Špediterska kompanija, logistika, međunarodni transport." data-plan="" data-pitanja="pitanja/transportni-komercijalista-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h4>Transportni komercijalista specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Tehničar vuče specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Tehničar vuče specijalista upravlja složenim vučnim sistemima i rukovodi timovima u željezničkom saobraćaju. Program uključuje naprednu dijagnostiku lokomotiva i planiranje željezničkih operacija." data-posao="Srpske železnice, privatni železnički operateri, industrijska postrojenja." data-plan="" data-pitanja="pitanja/tehnicar-vuce-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="12" rx="2"/><circle cx="7" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M7 16v2M17 16v2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M5 7h3M5 13h3"/></svg></div>
+          <h4>Tehničar vuče specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Tehničar tehničko kolske delatnosti specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Specijalista tehničko-kolske delatnosti vrši napredne dijagnostike šinskih vozila i koordinira tehničke preglede na nivou regionalnih centara za tehničku ispravnost." data-posao="Železnička infrastruktura, depot šinskih vozila, regionalni centar tehničke ispravnosti." data-plan="" data-pitanja="pitanja/tehnicar-tkd-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h4>Tehničar tehničko kolske delatnosti specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Bravar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Bravar specijalista izvodi složene bravarske radove, projektuje metalne konstrukcije i rukovodi bravarskim timovima. Program uključuje zavarene konstrukcije, aluminijumske sisteme i CNC obradu." data-posao="Metalna industrija, konstrukciona firma, brodogradilište, energetika." data-plan="" data-pitanja="pitanja/bravar-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></div>
+          <h4>Bravar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Automehaničar specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Automehaničar specijalista dijagnostikuje i popravlja složene kvarove na modernim vozilima s hibridnim i električnim pogonskim sistemima. Program uključuje naprednu OBD dijagnostiku i kalibraciju ADAS sistema." data-posao="Ovlašćeni auto-servis, diler vozila, specijalizovana radionica." data-plan="" data-pitanja="">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h4>Automehaničar specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal" onclick="openModal(this)" data-name="Zavarivač specijalista" data-stepen="V stepen" data-duration="1 godina" data-opis="Zavarivač specijalista ovladava naprednim zavarivačkim tehnikama — TIG zavarivanjem nehrđajućeg čelika i aluminijuma, podvodnim zavarivanjem i robotizovanim sistemima. Vrši kontrolu kvaliteta zavarenih spojeva." data-posao="Brodogradilište, petrokemijska industrija, nuklearna energetika, metalna industrija." data-plan="" data-pitanja="pitanja/zavarivac-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h4>Zavarivač specijalista</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-1" onclick="openModal(this)" data-name="Elektroenergetičar za upravljanje i zaštitu energetskih postrojenja" data-stepen="V stepen" data-duration="1 godina" data-opis="Specijalista za upravljanje elektroenergetskim postrojenjima nadzire distributivne transformatorske stanice, sisteme zaštite i automatike. Program uključuje SCADA sisteme i regulativu elektroenergetike." data-posao="Elektroprivreda, distributivno preduzeće, industrijska postrojenja." data-plan="" data-pitanja="pitanja/elektroenergeticar-specijalista.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h4>Elektroenergetičar za upravljanje i zaštitu energetskih postrojenja</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+        <div class="prog-card reveal reveal-delay-2" onclick="openModal(this)" data-name="Elektrotehničar specijalista za računarsku opremu" data-stepen="V stepen" data-duration="1 godina" data-opis="Specijalista za računarsku opremu dijagnostikuje i servisira složene serverske, mrežne i embedded sisteme. Program uključuje napredne mreže, cloud infrastrukturu i sajber bezbednost." data-posao="IT kompanija, data centar, telekomunikacije, servisni centar." data-plan="" data-pitanja="pitanja/elektrotehnicar-specijalista-racunari.zip">
+          <div class="prog-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h4>Elektrotehničar specijalista za računarsku opremu</h4><span class="prog-badge badge-v">Specijalizacija</span><span class="prog-hint">Detalji →</span>
+        </div>
+
+      </div>
+    </div>
+
+    </div><!-- /panel-vanredno -->
+
+
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div style="text-align:center; max-width:600px; margin:0 auto 0;" class="reveal">
+    <span class="section-label">Zašto Hipokrat</span>
+    <h2>Škola koja stoji iza svakog učenika</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.5); margin: .5rem auto 0;">Odabirom Škole Hipokrat, birate više od diplome.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-num">01</div>
+      <h3>Diploma priznata u EU i Crnoj Gori</h3>
+      <p>Jedina privatna škola u Srbiji čija je diploma zvanično priznata u Crnoj Gori i otvorena prema standardima EU.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-num">02</div>
+      <h3>Upis bez stresa — bez bodova</h3>
+      <p>Za upis u našu školu nije presudna ocena sa male mature ni broj bodova — jedino što je važno je ocena iz vladanja.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <div class="why-num">03</div>
+      <h3>Individualni mentorski pristup</h3>
+      <p>Mali razredi i posvećeni nastavnici garantuju da svaki učenik dobija pažnju i podršku koja mu je potrebna.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-3">
+      <div class="why-num">04</div>
+      <h3>Savremeni kurikulum i praksa</h3>
+      <p>Kombinujemo teorijsko znanje sa praktičnom nastavom, radionicama i projektima koji pripremaju učenike za realni svet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENROLL CTA -->
+<section id="enroll">
+  <span class="section-label" style="color:rgba(255,255,255,.7)">Generacija 2026/2027</span>
+  <h2>Upis je u toku.<br>Ne čekaj — mesta su ograničena.</h2>
+  <p>Pošalji dokumentaciju poštom ili e-mailom i osiguraj svoje mesto u najboljoj medicinskoj školi u regionu.</p>
+  <a href="#contact" class="btn-white">Kontaktiraj nas →</a>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal" style="text-align:center; max-width:500px; margin:0 auto 0;">
+    <span class="section-label">Utisci učenika</span>
+    <h2>Šta kažu naši polaznici</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <p>Odlična atmosfera, sjajni nastavnici i praktičan pristup učenju. Škola Hipokrat me je pripremila za sve izazove koji me čekaju u budućnosti.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <div class="testi-name">Milica Simić</div>
+          <div class="testi-role">Medicinska sestra – tehničar</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-1">
+      <p>U Školi Hipokrat sam stekao ne samo obrazovanje, već i prijatelje za ceo život. Preporučio bih je svakome ko želi kvalitetno obrazovanje i podršku.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Stefan Đorđević</div>
+          <div class="testi-role">Laboratorijski tehničar</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-2">
+      <p>Diploma Škole Hipokrat mi je otvorila mnoga vrata, posebno u Crnoj Gori. Zahvalna sam na mentorskom pristupu i inspirativnoj atmosferi.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Ana Petrović</div>
+          <div class="testi-role">Farmaceutski tehničar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="reveal">
+    <span class="section-label">Novosti</span>
+    <h2>Iz škole</h2>
+  </div>
+  <div class="news-grid">
+    <div class="news-card reveal">
+      <div class="news-img">
+        <img src="images/news-medjunajboljima.jpg" alt="Među najboljima" style="object-position:center top;">
+        <span class="news-date">11. jul 2025.</span>
+      </div>
+      <div class="news-body">
+        <h4>Među najboljima</h4>
+        <p>Tri učenika Hipokrata — Džudžević Šefkija, Delić Ajla i Metić Emina — dobili stalno zaposlenje u zdravstvenom sistemu Srbije u okviru akcije Ministarstva zdravlja.</p>
+      </div>
+    </div>
+    <div class="news-card reveal reveal-delay-1">
+      <div class="news-img">
+        <img src="images/news-upis.jpg" alt="Upis generacije 2026/2027" style="object-position:center 20%;">
+        <span class="news-date">5. jun 2025.</span>
+      </div>
+      <div class="news-body">
+        <h4>Upis generacije 2026/2027</h4>
+        <p>Medicinska škola Hipokrat upisuje novu generaciju redovnih učenika. Mali razredi, kvalifikovani nastavnici i obezbeđena praksa u zdravstvenim ustanovama. Prijave na 021/6-419-471.</p>
+      </div>
+    </div>
+    <div class="news-card reveal reveal-delay-2">
+      <div class="news-img">
+        <img src="images/news-mentalnozdravljje.jpg" alt="Mentalno zdravlje">
+        <span class="news-date">5. feb 2025.</span>
+      </div>
+      <div class="news-body">
+        <h4>Briga o mentalnom zdravlju počinje malim koracima</h4>
+        <p>Dovoljno sna, svakodnevna fizička aktivnost i otvorena komunikacija sa bliskim osobama — tri koraka ka boljem mentalnom zdravlju. Tvoje mentalno zdravlje je važno.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <span class="section-label">Kontakt</span>
+    <h2>Javite nam se</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Informacije o školi</h3>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <div class="lbl">Adresa</div>
+          <p>Dečanska 9<br>21000 Novi Sad</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <div class="lbl">Telefon</div>
+          <a href="tel:0216419471">021/6-419-471</a><br>
+          <a href="tel:0216419470">021/6-419-470</a><br>
+          <a href="tel:0655419471">065/5-419-471</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <div class="lbl">Email</div>
+          <a href="mailto:office@medicinskaskola.rs">office@medicinskaskola.rs</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="contact-item-text">
+          <div class="lbl">Radno vreme</div>
+          <p>Pon–Pet: 7:00 – 20:00<br>Subota: 8:00 – 13:00</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-1">
+      <h3>Pošaljite upit</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ime i prezime</label>
+          <input type="text" placeholder="Vaše ime">
+        </div>
+        <div class="form-group">
+          <label>Email adresa</label>
+          <input type="email" placeholder="vasa@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Telefon</label>
+        <input type="tel" placeholder="+381 ...">
+      </div>
+      <div class="form-group">
+        <label>Poruka</label>
+        <textarea placeholder="Postavite pitanje ili se prijavite za upis..."></textarea>
+      </div>
+      <button class="btn-form">Pošalji poruku →</button>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-img" id="mImg">
+      <svg class="modal-img-icon" id="mImgIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"></svg>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-badges">
+      <span class="prog-badge" id="mStepen"></span>
+      <span class="modal-duration" id="mDuration"></span>
+    </div>
+    <h3 class="modal-title" id="mName"></h3>
+    <p class="modal-opis" id="mOpis"></p>
+    <div class="modal-career">
+      <div class="modal-career-label">Gde možete raditi</div>
+      <p id="mPosao"></p>
+    </div>
+    <div class="modal-links" id="mLinks"></div>
+    <a href="#contact" class="btn-primary modal-cta" onclick="closeModal()">Upiši se danas →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom:.5rem; display:inline-flex;">
+        <img src="images/logo.png" alt="Medicinska škola Hipokrat Novi Sad" style="height:40px; width:auto; filter: brightness(0) invert(1);">
+      </a>
+      <p>Privatna medicinska škola u Novom Sadu. Diploma priznata u Srbiji, Crnoj Gori i EU.</p>
+      <div class="social-links">
+        <a href="https://www.medicinskaskola.rs" class="social-link" target="_blank">Web</a>
+        <a href="https://twitter.com/SHipokrat" class="social-link" target="_blank">TW</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigacija</h4>
+      <ul>
+        <li><a href="#about">O školi</a></li>
+        <li><a href="#programs">Smerovi obrazovanja</a></li>
+        <li><a href="#why">Zašto Hipokrat</a></li>
+        <li><a href="#testimonials">Utisci učenika</a></li>
+        <li><a href="#news">Novosti</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li><a href="#">Dečanska 9, Novi Sad</a></li>
+        <li><a href="tel:0216419471">021/6-419-471</a></li>
+        <li><a href="tel:0655419471">065/5-419-471</a></li>
+        <li><a href="mailto:office@medicinskaskola.rs">office@medicinskaskola.rs</a></li>
+        <li><a href="#">Pon–Pet: 7:00–20:00, Sub: 8:00–13:00</a></li>
+        <li><a href="#">Sub: 8:00–13:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Medicinska škola Hipokrat, Novi Sad. Sva prava zadržana.</span>
+    <span>Izgrađeno sa ❤ za obrazovanje</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Program mode switch
+  function switchMode(mode, btn) {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + mode).classList.add('active');
+  }
+
+  // Modal
+  function openModal(el) {
+    const stepen = el.dataset.stepen;
+    document.getElementById('mName').textContent = el.dataset.name;
+    document.getElementById('mOpis').textContent = el.dataset.opis;
+    document.getElementById('mPosao').textContent = el.dataset.posao;
+    document.getElementById('mDuration').textContent = el.dataset.duration;
+    const badge = document.getElementById('mStepen');
+    badge.textContent = stepen;
+    badge.className = 'prog-badge ' + (stepen.includes('IV') ? 'badge-iv' : stepen.includes('III') ? 'badge-iii' : 'badge-v');
+
+    // Populate download links
+    const linksEl = document.getElementById('mLinks');
+    linksEl.innerHTML = '';
+    if (el.dataset.pitanja) {
+      linksEl.innerHTML += `<a class="modal-link" href="${el.dataset.pitanja}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Ispitna pitanja
+      </a>`;
+    }
+
+    // Copy icon from card to modal header
+    const cardIcon = el.querySelector('.prog-icon svg');
+    const mImgIcon = document.getElementById('mImgIcon');
+    if (cardIcon) mImgIcon.innerHTML = cardIcon.innerHTML;
+
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
