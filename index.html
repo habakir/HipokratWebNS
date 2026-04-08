@@ -753,6 +753,19 @@
     gap: 1.5rem;
     margin-top: 3rem;
   }
+  .news-pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem; margin-top: 2rem;
+  }
+  .news-pagination button {
+    background: var(--navy); color: var(--white);
+    border: none; border-radius: 8px;
+    padding: .55rem 1.4rem; font-size: .85rem; font-weight: 600;
+    cursor: pointer; transition: background .2s, opacity .2s;
+  }
+  .news-pagination button:hover:not(:disabled) { background: var(--teal); }
+  .news-pagination button:disabled { opacity: .35; cursor: default; }
+  .news-pagination span { font-size: .85rem; color: var(--gray); font-weight: 500; }
   .news-card {
     background: var(--white);
     border-radius: 14px;
@@ -1139,39 +1152,57 @@
     <span class="section-label">Novosti</span>
     <h2>Iz škole</h2>
   </div>
-  <div class="news-grid">
-    <div class="news-card reveal">
-      <div class="news-img">
-        <img src="https://www.medicinskaskola.rs/wp-content/uploads/2026/03/1000056029-350x240.jpg" alt="Osma akcija Čitajmo glasno">
-        <span class="news-date">1. mart 2026.</span>
-      </div>
-      <div class="news-body">
-        <h4>Osma akcija „Čitajmo glasno"</h4>
-        <p>Učenici Hipokrata učestvovali su u osmoj akciji Društva školskih bibliotekara Srbije povodom Nacionalnog dana knjiga — čitali su odlomke i citate koji su na njih ostavili utisak.</p>
-      </div>
-    </div>
-    <div class="news-card reveal reveal-delay-1">
-      <div class="news-img">
-        <img src="https://www.medicinskaskola.rs/wp-content/uploads/2026/03/1000055307-350x240.jpg" alt="Konkurs Svetozar Miletić">
-        <span class="news-date">20. februar 2026.</span>
-      </div>
-      <div class="news-body">
-        <h4>Konkurs Svetozar Miletić</h4>
-        <p>Arhiv Vojvodine raspisao je literarni i likovni konkurs za učenike povodom 200 godina od rođenja dr Svetozara Miletića pod nazivom „Svetozar Miletić – reč koja narod budi".</p>
-      </div>
-    </div>
-    <div class="news-card reveal reveal-delay-2">
-      <div class="news-img">
-        <img src="https://www.medicinskaskola.rs/wp-content/uploads/2026/03/20260130_120852-350x240.jpg" alt="Poseta izložbi Krhka priroda Vojvodine">
-        <span class="news-date">30. januar 2026.</span>
-      </div>
-      <div class="news-body">
-        <h4>Poseta izložbi „Krhka priroda Vojvodine"</h4>
-        <p>Učenice Hipokrata posetile su izložbu „Krhka priroda Vojvodine" u Digitalnom omladinskom centru, posećenu temama fotografije divljeg sveta i zaštite prirode.</p>
-      </div>
-    </div>
+  <div class="news-grid" id="news-grid"></div>
+  <div class="news-pagination">
+    <button id="news-prev" onclick="newsPage(-1)" disabled>← Prethodna</button>
+    <span id="news-counter"></span>
+    <button id="news-next" onclick="newsPage(1)">Sledeća →</button>
   </div>
 </section>
+<script>
+  var newsArticles = [
+    { title: 'Osma akcija „Čitajmo glasno"', date: '1. mart 2026.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2026/03/1000056029-300x225.jpg', url: 'https://www.medicinskaskola.rs/osma-akcija-citajmo-glasno/', desc: 'Učenici Hipokrata učestvovali su u osmoj akciji Društva školskih bibliotekara Srbije povodom Nacionalnog dana knjiga — čitali su odlomke i citate koji su na njih ostavili utisak.' },
+    { title: 'Konkurs Svetozar Miletić', date: '20. februar 2026.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2026/03/1000055307-225x300.jpg', url: 'https://www.medicinskaskola.rs/konkurs-svetozar-miletic/', desc: 'Arhiv Vojvodine raspisao je literarni i likovni konkurs za učenike povodom 200 godina od rođenja dr Svetozara Miletića pod nazivom „Svetozar Miletić – reč koja narod budi".' },
+    { title: 'Poseta izložbi „Krhka priroda Vojvodine"', date: '30. januar 2026.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2026/03/20260130_120852-300x225.jpg', url: 'https://www.medicinskaskola.rs/poseta-izlozbi-krhka-priroda-vojvodine/', desc: 'Učenice Hipokrata posetile su izložbu „Krhka priroda Vojvodine" u Digitalnom omladinskom centru, posvećenu temama fotografije divljeg sveta i zaštite prirode.' },
+    { title: 'Predavanje Igora Jurića o bezbednosti na internetu', date: '19. januar 2026.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2026/03/1000053405_exposure-300x225.jpg', url: 'https://www.medicinskaskola.rs/predavanje-igora-jurica-o-bezbednosti-na-internetu/', desc: 'Škola je ugostila Igora Jurića iz Centra za nestalu i zlostavljanu decu koji je održao radionicu o bezbednosti na internetu za učenike.' },
+    { title: 'Među 300 najboljih', date: '17. decembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2026/03/IMG-32d86c69da10153cb50cc74796eb037f-V-258x300.jpg', url: 'https://www.medicinskaskola.rs/medu-300-najboljih/', desc: 'Pesme dvoje učenika Hipokrata uvrstile su se u zbornik „300 najboljih pesama mladih autora do 19 godina" — još jedan dokaz kreativnosti naših đaka.' },
+    { title: 'Okružno takmičenje u plivanju', date: '1. decembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/viber_slika_2025-11-28_09-45-46-509-225x300.jpg', url: 'https://www.medicinskaskola.rs/okruzno-takmicenje-u-plivanju-i-nasi-ucenici/', desc: 'Plivači Hipokrata ostvarili su odlične rezultate na okružnom takmičenju i izborili plasman na državno prvenstv.' },
+    { title: 'Naši učenici na klizanju', date: '29. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/1000050880-225x300.jpg', url: 'https://www.medicinskaskola.rs/nasi-ucenici-na-klizanju/', desc: 'Učenici su posetili klizalište uz nastavnika fizičkog vaspitanja kako bi razvijali koordinaciju i veštine klizanja.' },
+    { title: 'Predavanje zajednice „Zemlje živih"', date: '26. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/20251126_121645_exposure-300x225.jpg', url: 'https://www.medicinskaskola.rs/predavanje-zajednice-zemlje-zivih/', desc: 'Predstavnik rehabilitacionog centra govorio je o bolestima zavisnosti i oporavku kroz podršku zajednice.' },
+    { title: 'Naši učenici u poseti Američkom kutku', date: '20. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/11/DSC_0433_exposure-300x200.jpg', url: 'https://www.medicinskaskola.rs/nasi-ucenici-u-poseti-americkom-kutku/', desc: 'Učenici četvrtog razreda posetili su Američki kutak kako bi saznali više o američkoj kulturi i mogućnostima studiranja.' },
+    { title: 'Vrednost komunikacije lekar – pacijent', date: '17. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/11/1000048015_exposure-300x225.jpg', url: 'https://www.medicinskaskola.rs/vrednost-komunikacije-lekar-pacijent/', desc: 'Učenici su prisustvovali radionici o empatiji i aktivnom slušanju u odnosu lekar–pacijent.' },
+    { title: 'Ne budi vest – probudi svest', date: '14. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/1000050170-300x225.jpg', url: 'https://www.medicinskaskola.rs/ne-budi-vest-probudi-svest/', desc: 'Učenici prvog i trećeg razreda prisustvovali su inspirativnom predavanju o bezbednosti u saobraćaju.' },
+    { title: 'Mališani u gostima: svet medicine', date: '13. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/1000049928-225x300.jpg', url: 'https://www.medicinskaskola.rs/malisani-u-gostima-upoznavanje-sa-svetom-medicine/', desc: 'Škola je ugostila predškolce koji su kroz igru i demonstracije upoznali medicinska zanimanja.' },
+    { title: 'Tribina o HPV infekciji i vakcinaciji', date: '12. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/12/%D1%81%D0%BB%D1%96%D0%BA%D0%B001-300x225.png', url: 'https://www.medicinskaskola.rs/tribina-sve-sto-bi-trebalo-da-znate-o-hpv-infekciji-i-vakcinaciji/', desc: 'Učenici su prisustvovali predavanju Farmaceutskog fakulteta o prevenciji HPV infekcije i važnosti vakcinacije.' },
+    { title: 'Učenici u akciji dobrovoljnog davanja krvi', date: '6. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/11/1000049535-300x225.jpg', url: 'https://www.medicinskaskola.rs/ucenici-u-akciji-dobrovoljnog-davanja-krvi/', desc: 'Maturanti Hipokrata učestvovali su u akciji dobrovoljnog davanja krvi organizovanoj u saradnji sa Crvenim krstom.' },
+    { title: 'Učenici u svetu boja Lazara Vozarevića', date: '5. novembar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/11/1000049465-300x225.jpg', url: 'https://www.medicinskaskola.rs/ucenici-u-svetu-boja-i-geometrije-lazara-vozarevica/', desc: 'Drugorazredci su posetili izložbu u Matici srpskoj posvećenu stogodišnjici Lazara Vozarevića.' },
+    { title: 'Mladi u pokretu – uspešno završeno!', date: '11. oktobar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/10/108-Mladi-u-pokretu-Udruzenje-Gradjana-Uz-Tebe-300x200.jpg', url: 'https://www.medicinskaskola.rs/mladi-u-pokretu-uspesno-zavrseno-%f0%9f%8f%80%f0%9f%92%aa/', desc: 'Omladinski sportski projekat zatvoren je finalnim turnirom koji je proslavio atletski duh i timski rad.' },
+    { title: 'Pružimo ruku prijateljstva – Dečija nedelja', date: '7. oktobar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/10/1000047687-300x225.jpg', url: 'https://www.medicinskaskola.rs/pruzimo-ruku-prijateljstva-obelezavanje-decije-nedelje-u-decijem-selu/', desc: 'Učenici su posetili Dečije selo i obeležili Dečiju nedelju kroz likovne radionice i društvene aktivnosti.' },
+    { title: 'Susret mladosti i iskustva – Dan starijih', date: '1. oktobar 2025.', img: 'https://www.medicinskaskola.rs/wp-content/uploads/2025/10/Hipokrat-poseta-starim-1-225x300.jpg', url: 'https://www.medicinskaskola.rs/susret-mladosti-i-iskustva-povodom-medunarodnog-dana-starijih-osoba/', desc: 'Učenici su posetili gerontološki centar i razgovarali sa starijim osobama o zdravim navikama i dobrobiti.' }
+  ];
+  var newsPage_current = 0;
+  var newsPage_size = 3;
+  function newsPage(dir) {
+    newsPage_current += dir;
+    renderNews();
+  }
+  function renderNews() {
+    var grid = document.getElementById('news-grid');
+    var start = newsPage_current * newsPage_size;
+    var slice = newsArticles.slice(start, start + newsPage_size);
+    var total = Math.ceil(newsArticles.length / newsPage_size);
+    grid.innerHTML = slice.map(function(a) {
+      return '<a class="news-card" href="' + a.url + '" target="_blank" rel="noopener" style="text-decoration:none;">' +
+        '<div class="news-img"><img src="' + a.img + '" alt="' + a.title + '" loading="lazy"><span class="news-date">' + a.date + '</span></div>' +
+        '<div class="news-body"><h4>' + a.title + '</h4><p>' + a.desc + '</p></div>' +
+        '</a>';
+    }).join('');
+    document.getElementById('news-prev').disabled = newsPage_current === 0;
+    document.getElementById('news-next').disabled = newsPage_current >= total - 1;
+    document.getElementById('news-counter').textContent = (newsPage_current + 1) + ' / ' + total;
+  }
+  renderNews();
+</script>
 
 <!-- PROGRAMS -->
 <section id="programs">
