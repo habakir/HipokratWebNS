@@ -766,6 +766,41 @@
   .news-pagination button:hover:not(:disabled) { background: var(--teal); }
   .news-pagination button:disabled { opacity: .35; cursor: default; }
   .news-pagination span { font-size: .85rem; color: var(--gray); font-weight: 500; }
+  .news-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(11,31,58,.7); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .news-modal-overlay.open { display: flex; }
+  .news-modal {
+    background: var(--white); border-radius: 18px;
+    max-width: 560px; width: 100%; overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,.25);
+    animation: modalIn .2s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+  .news-modal-img { height: 240px; position: relative; overflow: hidden; background: var(--navy); }
+  .news-modal-img img { width:100%; height:100%; object-fit:cover; }
+  .news-modal-img::after {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(to top, rgba(11,31,58,.6) 0%, transparent 55%);
+  }
+  .news-modal-date {
+    position: absolute; z-index:2; bottom:.9rem; right:.9rem;
+    background: var(--teal); color: var(--white);
+    font-size:.72rem; font-weight:700; padding:.25rem .6rem; border-radius:4px;
+  }
+  .news-modal-body { padding: 1.8rem; }
+  .news-modal-body h3 { font-size:1.15rem; font-weight:700; color:var(--navy); margin-bottom:.75rem; line-height:1.35; }
+  .news-modal-body p { font-size:.9rem; color:var(--gray); line-height:1.75; }
+  .news-modal-close {
+    position:absolute; top:1rem; right:1rem; z-index:3;
+    background:rgba(255,255,255,.9); border:none; border-radius:50%;
+    width:34px; height:34px; font-size:1.1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+  }
+  .news-modal-img { position:relative; }
   .news-card {
     background: var(--white);
     border-radius: 14px;
@@ -1186,23 +1221,53 @@
     newsPage_current += dir;
     renderNews();
   }
+  function openNewsModal(i) {
+    var a = newsArticles[i];
+    document.getElementById('nm-img').src = a.img;
+    document.getElementById('nm-img').alt = a.title;
+    document.getElementById('nm-date').textContent = a.date;
+    document.getElementById('nm-title').textContent = a.title;
+    document.getElementById('nm-desc').textContent = a.desc;
+    document.getElementById('news-modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNewsModal() {
+    document.getElementById('news-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
   function renderNews() {
     var grid = document.getElementById('news-grid');
     var start = newsPage_current * newsPage_size;
     var slice = newsArticles.slice(start, start + newsPage_size);
     var total = Math.ceil(newsArticles.length / newsPage_size);
-    grid.innerHTML = slice.map(function(a) {
-      return '<a class="news-card" href="' + a.url + '" target="_blank" rel="noopener" style="text-decoration:none;">' +
+    grid.innerHTML = slice.map(function(a, j) {
+      var i = start + j;
+      return '<div class="news-card" onclick="openNewsModal(' + i + ')" style="cursor:pointer;">' +
         '<div class="news-img"><img src="' + a.img + '" alt="' + a.title + '" loading="lazy"><span class="news-date">' + a.date + '</span></div>' +
         '<div class="news-body"><h4>' + a.title + '</h4><p>' + a.desc + '</p></div>' +
-        '</a>';
+        '</div>';
     }).join('');
     document.getElementById('news-prev').disabled = newsPage_current === 0;
     document.getElementById('news-next').disabled = newsPage_current >= total - 1;
     document.getElementById('news-counter').textContent = (newsPage_current + 1) + ' / ' + total;
   }
   renderNews();
+  document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeNewsModal(); });
 </script>
+
+<div class="news-modal-overlay" id="news-modal-overlay" onclick="if(event.target===this)closeNewsModal()">
+  <div class="news-modal">
+    <div class="news-modal-img">
+      <img id="nm-img" src="" alt="">
+      <span class="news-modal-date" id="nm-date"></span>
+      <button class="news-modal-close" onclick="closeNewsModal()">✕</button>
+    </div>
+    <div class="news-modal-body">
+      <h3 id="nm-title"></h3>
+      <p id="nm-desc"></p>
+    </div>
+  </div>
+</div>
 
 <!-- PROGRAMS -->
 <section id="programs">
