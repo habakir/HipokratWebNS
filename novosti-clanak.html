@@ -118,15 +118,18 @@
   .article-content .alignright { float: right; margin: 0 0 1rem 1.5rem; max-width: 50%; }
   .article-content::after { content: ''; display: table; clear: both; }
 
-  /* PHOTO GALLERY — consecutive images grouped by JS */
+  /* PHOTO GALLERY */
   .wp-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: .75rem;
     margin: 1.75rem 0;
   }
   .wp-gallery p, .wp-gallery figure { margin: 0; }
-  .wp-gallery img { width: 100%; height: 210px; object-fit: cover; margin: 0; border-radius: 10px; }
+  .wp-gallery a { display: block; }
+  .wp-gallery img { width: 100%; height: 220px; object-fit: cover; margin: 0 !important; border-radius: 10px; float: none !important; }
+  /* Override WP float classes inside gallery */
+  .wp-gallery .alignright, .wp-gallery .alignleft, .wp-gallery .aligncenter { float: none; display: block; margin: 0; max-width: 100%; }
 
   /* LOADING / ERROR */
   .state-box { text-align: center; padding: 5rem 2rem; }
@@ -238,58 +241,52 @@
 </footer>
 
 <script>
-  function isImgEl(el) {
-    if (!el || el.nodeType !== 1) return false;
-    if (el.tagName === 'FIGURE') return !!el.querySelector('img');
-    if (el.tagName === 'P' || el.tagName === 'DIV') {
-      if (!el.querySelector('img')) return false;
-      // Allow if every child node is an img or pure whitespace
-      return Array.from(el.childNodes).every(function(n) {
-        return (n.nodeType === 1 && n.tagName === 'IMG') ||
-               (n.nodeType === 3 && n.textContent.trim() === '') ||
-               (n.nodeType === 1 && n.tagName === 'A' && n.querySelector('img'));
-      });
-    }
-    return false;
-  }
-
-  function isEmptyEl(el) {
-    if (!el || el.nodeType !== 1) return false;
-    return !el.querySelector('img') && el.textContent.trim() === '';
-  }
-
   function groupImages(container) {
+    // Case 1: one element holds multiple images (WP classic: <p><a><img></a><a><img></a>...)
+    container.querySelectorAll('p, div, td').forEach(function(el) {
+      if (el.closest('.wp-gallery')) return;
+      var imgs = el.querySelectorAll('img');
+      if (imgs.length < 2) return;
+      // Skip if there's substantial real text (not just alt attributes)
+      var clone = el.cloneNode(true);
+      clone.querySelectorAll('img').forEach(function(i) { i.remove(); });
+      if (clone.textContent.trim().length > 80) return;
+      el.classList.add('wp-gallery');
+    });
+
+    // Case 2: consecutive single-image sibling elements
     var kids = Array.from(container.children);
     var i = 0;
     while (i < kids.length) {
-      if (isImgEl(kids[i])) {
-        var start = i;
+      var el = kids[i];
+      if (el.classList.contains('wp-gallery')) { i++; continue; }
+      var imgs = el.querySelectorAll('img');
+      var clone2 = el.cloneNode(true);
+      clone2.querySelectorAll('img').forEach(function(x) { x.remove(); });
+      var isSingleImg = imgs.length === 1 && clone2.textContent.trim() === '';
+      if (isSingleImg) {
+        var group = [el];
         var j = i + 1;
-        // Advance past consecutive images, skipping blank spacer elements
         while (j < kids.length) {
-          if (isImgEl(kids[j])) { j++; }
-          else if (isEmptyEl(kids[j])) { j++; }
-          else { break; }
-        }
-        // Collect only actual image elements in the range
-        var group = [];
-        for (var k = start; k < j; k++) {
-          if (isImgEl(kids[k])) group.push(kids[k]);
-          else if (isEmptyEl(kids[k])) kids[k].remove();
+          var next = kids[j];
+          var ni = next.querySelectorAll('img');
+          var nc = next.cloneNode(true);
+          nc.querySelectorAll('img').forEach(function(x) { x.remove(); });
+          if (ni.length === 1 && nc.textContent.trim() === '' && !next.classList.contains('wp-gallery')) {
+            group.push(next); j++;
+          } else if (!next.querySelector('img') && next.textContent.trim() === '') {
+            next.remove(); kids.splice(j, 1);
+          } else break;
         }
         if (group.length > 1) {
           var wrap = document.createElement('div');
           wrap.className = 'wp-gallery';
           container.insertBefore(wrap, group[0]);
           group.forEach(function(g) { wrap.appendChild(g); });
-        }
-        kids = Array.from(container.children);
-        var last = group[group.length - 1] || kids[start];
-        i = kids.indexOf(last) + 1;
-        if (i <= 0) i = j;
-      } else {
-        i++;
-      }
+          kids = Array.from(container.children);
+          i = kids.indexOf(wrap) + 1;
+        } else { i++; }
+      } else { i++; }
     }
   }
 
