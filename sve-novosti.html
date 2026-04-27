@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sve novosti — Medicinska škola Hipokrat Novi Sad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0b1f3a;
+    --teal: #00a896;
+    --teal-dark: #007a6e;
+    --coral: #f4623a;
+    --cream: #f7f4ef;
+    --white: #ffffff;
+    --gray: #6b7280;
+    --light: #e8e4de;
+    --text: #1a2332;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 70px;
+    background: rgba(11,31,58,0.97);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,.75); text-decoration: none; font-size: .9rem; font-weight: 500; letter-spacing: .3px; transition: color .2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+  .nav-cta { background: var(--coral); color: var(--white) !important; padding: .5rem 1.2rem; border-radius: 6px; font-weight: 600 !important; transition: background .2s !important; }
+  .nav-cta:hover { background: #d94e27 !important; }
+
+  /* PAGE HEADER */
+  .page-header {
+    margin-top: 70px;
+    background: var(--navy);
+    padding: 4rem 5vw 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(0,168,150,.15) 0%, transparent 65%);
+  }
+  .page-header-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+  .page-header span {
+    display: inline-block;
+    font-size: .75rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: .75rem;
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+  }
+  .page-header p {
+    color: rgba(255,255,255,.6);
+    font-size: .95rem;
+    margin-top: .75rem;
+  }
+
+  /* MAIN CONTENT */
+  .novosti-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 5vw 6rem;
+  }
+
+  /* GRID */
+  .novosti-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  /* CARD */
+  .news-card {
+    background: var(--white);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--light);
+    transition: transform .2s, box-shadow .2s;
+    display: flex; flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .news-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+  .news-img {
+    height: 200px;
+    background: linear-gradient(135deg, var(--navy) 0%, #1a4a6e 100%);
+    position: relative; overflow: hidden;
+  }
+  .news-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .news-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,31,58,.65) 0%, transparent 55%); }
+  .news-date {
+    background: var(--teal); color: var(--white);
+    font-size: .72rem; font-weight: 700; letter-spacing: .5px;
+    padding: .25rem .6rem; border-radius: 4px;
+    position: absolute; z-index: 2; bottom: .9rem; right: .9rem;
+  }
+  .news-body { padding: 1.3rem; flex: 1; }
+  .news-body h4 { font-size: .95rem; font-weight: 600; color: var(--navy); line-height: 1.4; margin-bottom: .5rem; }
+  .news-body p { font-size: .83rem; color: var(--gray); line-height: 1.6; }
+
+  /* PAGINATION */
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: .6rem; flex-wrap: wrap;
+  }
+  .pg-btn {
+    background: var(--white); color: var(--navy);
+    border: 1px solid var(--light); border-radius: 8px;
+    padding: .55rem 1.1rem; font-size: .85rem; font-weight: 600;
+    cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
+  }
+  .pg-btn:hover:not(:disabled) { background: var(--teal); color: var(--white); border-color: var(--teal); }
+  .pg-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .pg-btn:disabled { opacity: .35; cursor: default; }
+  .pg-info { font-size: .85rem; color: var(--gray); font-weight: 500; padding: 0 .5rem; }
+
+  /* LOADING / ERROR */
+  .state-box { text-align: center; padding: 5rem 2rem; }
+  .spinner { width: 40px; height: 40px; border: 3px solid var(--light); border-top-color: var(--teal); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 1.25rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .state-box p { color: var(--gray); }
+
+  /* FOOTER */
+  footer { background: var(--navy); color: rgba(255,255,255,.7); }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; padding: 4rem 5vw 3rem; max-width: 1200px; margin: 0 auto; }
+  .footer-brand p { font-size: .85rem; line-height: 1.7; margin-top: .75rem; }
+  .social-links { display: flex; gap: .75rem; margin-top: 1.25rem; }
+  .social-link { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); text-decoration: none; font-size: .78rem; font-weight: 700; transition: background .2s, color .2s; }
+  .social-link:hover { background: var(--teal); color: var(--white); }
+  .footer-col h4 { color: var(--white); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: .5rem; }
+  .footer-col a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .85rem; transition: color .2s; }
+  .footer-col a:hover { color: var(--teal); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 1.25rem 5vw; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; max-width: 1200px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .novosti-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .page-header { padding: 3rem 5vw 2.5rem; }
+    .novosti-wrap { padding: 2.5rem 1.25rem 4rem; }
+    .novosti-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 5vw 2rem; }
+    .footer-bottom { flex-direction: column; gap: .5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo.png" alt="Medicinska škola Hipokrat Novi Sad">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">O školi</a></li>
+    <li><a href="index.html#programs">Smerovi</a></li>
+    <li><a href="index.html#why">Zašto mi</a></li>
+    <li><a href="sve-novosti.html" class="active">Novosti</a></li>
+    <li><a href="index.html#contact">Kontakt</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Upiši se</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <span>Medicinska škola Hipokrat</span>
+    <h1>Novosti iz škole</h1>
+    <p>Sve aktuelnosti, događaji i postignuća naših učenika.</p>
+  </div>
+</div>
+
+<div class="novosti-wrap">
+  <div class="novosti-grid" id="novosti-grid">
+    <div class="state-box" style="grid-column:1/-1;">
+      <div class="spinner"></div>
+      <p>Učitavanje novosti…</p>
+    </div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo" style="margin-bottom:.5rem; display:inline-flex;">
+        <img src="images/logo.png" alt="Medicinska škola Hipokrat Novi Sad" style="height:40px; width:auto; filter: brightness(0) invert(1);">
+      </a>
+      <p>Privatna medicinska škola u Novom Sadu. Diploma priznata u Srbiji, Crnoj Gori i EU.</p>
+      <div class="social-links">
+        <a href="https://www.medicinskaskola.rs" class="social-link" target="_blank">Web</a>
+        <a href="https://www.instagram.com/medicinskaskolahipokrat/" class="social-link" target="_blank">IG</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigacija</h4>
+      <ul>
+        <li><a href="index.html#about">O školi</a></li>
+        <li><a href="index.html#programs">Smerovi obrazovanja</a></li>
+        <li><a href="index.html#why">Zašto Hipokrat</a></li>
+        <li><a href="sve-novosti.html">Sve novosti</a></li>
+        <li><a href="index.html#contact">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li><a href="#">Dečanska 9, Novi Sad</a></li>
+        <li><a href="tel:0216419471">021/6-419-471</a></li>
+        <li><a href="tel:0655419471">065/5-419-471</a></li>
+        <li><a href="mailto:office@medicinskaskola.rs">office@medicinskaskola.rs</a></li>
+        <li><a href="#">Pon–Pet: 7:00–20:00</a></li>
+        <li><a href="#">Sub: 8:00–13:00</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Medicinska škola Hipokrat, Novi Sad. Sva prava zadržana.</span>
+    <span>Izgrađeno sa ❤ za obrazovanje</span>
+  </div>
+</footer>
+
+<script>
+  var currentPage = 1;
+  var totalPages = 1;
+  var perPage = 12;
+
+  function loadPage(page) {
+    currentPage = page;
+    var grid = document.getElementById('novosti-grid');
+    grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><div class="spinner"></div><p>Učitavanje…</p></div>';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+
+    fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/posts?per_page=' + perPage + '&page=' + page + '&_embed')
+      .then(function(r) {
+        totalPages = parseInt(r.headers.get('X-WP-TotalPages')) || 1;
+        var total = parseInt(r.headers.get('X-WP-Total')) || 0;
+        return r.json().then(function(posts) { return { posts: posts, total: total }; });
+      })
+      .then(function(data) {
+        renderGrid(data.posts);
+        renderPagination(data.total);
+      })
+      .catch(function() {
+        grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><p>Greška pri učitavanju. Pokušajte ponovo.</p></div>';
+      });
+  }
+
+  function renderGrid(posts) {
+    var grid = document.getElementById('novosti-grid');
+    if (!posts.length) {
+      grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><p>Nema novosti.</p></div>';
+      return;
+    }
+    grid.innerHTML = posts.map(function(post) {
+      var img = (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0])
+        ? post._embedded['wp:featuredmedia'][0].source_url : '';
+      var date = new Date(post.date).toLocaleDateString('sr-Latn', {day:'numeric', month:'long', year:'numeric'});
+      var title = post.title.rendered.replace(/<[^>]+>/g, '');
+      var excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().substring(0, 120) + '…';
+      return '<a href="novosti-clanak.html?id=' + post.id + '" class="news-card">' +
+        '<div class="news-img">' + (img ? '<img src="' + img + '" alt="' + title + '" loading="lazy">' : '') +
+        '<span class="news-date">' + date + '</span></div>' +
+        '<div class="news-body"><h4>' + title + '</h4><p>' + excerpt + '</p></div>' +
+        '</a>';
+    }).join('');
+  }
+
+  function renderPagination(total) {
+    var pg = document.getElementById('pagination');
+    if (totalPages <= 1) { pg.innerHTML = ''; return; }
+
+    var html = '';
+    html += '<button class="pg-btn" onclick="loadPage(' + (currentPage - 1) + ')"' + (currentPage === 1 ? ' disabled' : '') + '>← Prethodna</button>';
+
+    var start = Math.max(1, currentPage - 2);
+    var end = Math.min(totalPages, currentPage + 2);
+    if (start > 1) html += '<button class="pg-btn" onclick="loadPage(1)">1</button>' + (start > 2 ? '<span class="pg-info">…</span>' : '');
+    for (var i = start; i <= end; i++) {
+      html += '<button class="pg-btn' + (i === currentPage ? ' active' : '') + '" onclick="loadPage(' + i + ')">' + i + '</button>';
+    }
+    if (end < totalPages) html += (end < totalPages - 1 ? '<span class="pg-info">…</span>' : '') + '<button class="pg-btn" onclick="loadPage(' + totalPages + ')">' + totalPages + '</button>';
+
+    html += '<button class="pg-btn" onclick="loadPage(' + (currentPage + 1) + ')"' + (currentPage === totalPages ? ' disabled' : '') + '>Sledeća →</button>';
+    html += '<span class="pg-info">Stranica ' + currentPage + ' od ' + totalPages + ' (' + total + ' novosti)</span>';
+    pg.innerHTML = html;
+  }
+
+  loadPage(1);
+</script>
+</body>
+</html>
