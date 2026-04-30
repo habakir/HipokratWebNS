@@ -70,6 +70,41 @@
     margin-top: .75rem;
   }
 
+  /* FILTERS */
+  .filters-section {
+    background: var(--white);
+    border-bottom: 1px solid var(--light);
+    padding: 1.25rem 5vw;
+    position: sticky; top: 70px; z-index: 50;
+  }
+  .filters-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-wrap svg {
+    position: absolute; left: .9rem; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; color: var(--gray); pointer-events: none;
+  }
+  #search-input {
+    width: 100%; padding: .65rem 1rem .65rem 2.5rem;
+    border: 1px solid var(--light); border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: .9rem;
+    color: var(--text); background: var(--cream); outline: none;
+    transition: border-color .2s;
+  }
+  #search-input:focus { border-color: var(--teal); }
+  .filter-chips { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .chip {
+    padding: .45rem 1rem; border-radius: 20px;
+    border: 1px solid var(--light); background: var(--cream);
+    font-size: .8rem; font-weight: 600; color: var(--gray);
+    cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--teal); color: var(--teal); }
+  .chip.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
   /* MAIN CONTENT */
   .novosti-wrap {
     max-width: 1200px;
@@ -156,6 +191,8 @@
   @media (max-width: 600px) {
     .nav-links { display: none; }
     .page-header { padding: 3rem 5vw 2.5rem; }
+    .filters-section { padding: 1rem 1.25rem; }
+    .filters-inner { gap: .75rem; }
     .novosti-wrap { padding: 2.5rem 1.25rem 4rem; }
     .novosti-grid { grid-template-columns: 1fr; gap: 1rem; }
     .footer-top { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 5vw 2rem; }
@@ -184,6 +221,18 @@
     <span>Medicinska škola Hipokrat</span>
     <h1>Novosti iz škole</h1>
     <p>Sve aktuelnosti, događaji i postignuća naših učenika.</p>
+  </div>
+</div>
+
+<div class="filters-section">
+  <div class="filters-inner">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search-input" placeholder="Pretražite novosti…">
+    </div>
+    <div class="filter-chips" id="filter-chips">
+      <button class="chip active" data-cat="">Sve</button>
+    </div>
   </div>
 </div>
 
@@ -241,6 +290,16 @@
   var currentPage = 1;
   var totalPages = 1;
   var perPage = 12;
+  var currentSearch = '';
+  var currentCategory = '';
+  var searchTimer = null;
+
+  function buildUrl(page) {
+    var base = 'https://www.medicinskaskola.rs/wp-json/wp/v2/posts?per_page=' + perPage + '&page=' + page + '&_embed';
+    if (currentSearch) base += '&search=' + encodeURIComponent(currentSearch);
+    if (currentCategory) base += '&categories=' + currentCategory;
+    return base;
+  }
 
   function loadPage(page) {
     currentPage = page;
@@ -248,7 +307,7 @@
     grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><div class="spinner"></div><p>Učitavanje…</p></div>';
     window.scrollTo({top: 0, behavior: 'smooth'});
 
-    fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/posts?per_page=' + perPage + '&page=' + page + '&_embed')
+    fetch(buildUrl(page))
       .then(function(r) {
         totalPages = parseInt(r.headers.get('X-WP-TotalPages')) || 1;
         var total = parseInt(r.headers.get('X-WP-Total')) || 0;
@@ -266,7 +325,7 @@
   function renderGrid(posts) {
     var grid = document.getElementById('novosti-grid');
     if (!posts.length) {
-      grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><p>Nema novosti.</p></div>';
+      grid.innerHTML = '<div class="state-box" style="grid-column:1/-1;"><p>Nema rezultata za vašu pretragu.</p></div>';
       return;
     }
     grid.innerHTML = posts.map(function(post) {
@@ -303,6 +362,39 @@
     pg.innerHTML = html;
   }
 
+  function initCategories() {
+    fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/categories?per_page=100&hide_empty=true')
+      .then(function(r) { return r.json(); })
+      .then(function(cats) {
+        var chips = document.getElementById('filter-chips');
+        cats.forEach(function(cat) {
+          var btn = document.createElement('button');
+          btn.className = 'chip';
+          btn.dataset.cat = cat.id;
+          btn.textContent = cat.name;
+          btn.addEventListener('click', function() { setCategory(cat.id, btn); });
+          chips.appendChild(btn);
+        });
+      });
+  }
+
+  function setCategory(catId, btn) {
+    currentCategory = catId || '';
+    document.querySelectorAll('#filter-chips .chip').forEach(function(c) { c.classList.remove('active'); });
+    btn.classList.add('active');
+    loadPage(1);
+  }
+
+  document.getElementById('search-input').addEventListener('input', function() {
+    clearTimeout(searchTimer);
+    var val = this.value.trim();
+    searchTimer = setTimeout(function() {
+      currentSearch = val;
+      loadPage(1);
+    }, 400);
+  });
+
+  initCategories();
   loadPage(1);
 </script>
 </body>
