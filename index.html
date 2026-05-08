@@ -1333,7 +1333,7 @@
   }
 
   document.getElementById('news-grid').innerHTML = '<p class="news-loading">Učitavanje novosti…</p>';
-  fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/posts?per_page=9&_embed')
+  fetch('https://medicinskaskola.rs/wp-json/wp/v2/posts?per_page=9&_embed')
     .then(function(r) { return r.json(); })
     .then(function(posts) {
       wpPosts = posts;

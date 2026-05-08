@@ -295,7 +295,7 @@
   var searchTimer = null;
 
   function buildUrl(page) {
-    var base = 'https://www.medicinskaskola.rs/wp-json/wp/v2/posts?per_page=' + perPage + '&page=' + page + '&_embed';
+    var base = 'https://medicinskaskola.rs/wp-json/wp/v2/posts?per_page=' + perPage + '&page=' + page + '&_embed';
     if (currentSearch) base += '&search=' + encodeURIComponent(currentSearch);
     if (currentCategory) base += '&categories=' + currentCategory;
     return base;
@@ -363,7 +363,7 @@
   }
 
   function initCategories() {
-    fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/categories?per_page=100&hide_empty=true')
+    fetch('https://medicinskaskola.rs/wp-json/wp/v2/categories?per_page=100&hide_empty=true')
       .then(function(r) { return r.json(); })
       .then(function(cats) {
         var chips = document.getElementById('filter-chips');

@@ -357,7 +357,7 @@
   if (!postId) {
     window.location.href = 'index.html#news';
   } else {
-    fetch('https://www.medicinskaskola.rs/wp-json/wp/v2/posts/' + postId + '?_embed')
+    fetch('https://medicinskaskola.rs/wp-json/wp/v2/posts/' + postId + '?_embed')
       .then(function(r) {
         if (!r.ok) throw new Error('not found');
         return r.json();
