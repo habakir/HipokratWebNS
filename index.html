@@ -1317,7 +1317,7 @@
     var total = Math.ceil(wpPosts.length / newsPage_size);
     grid.innerHTML = slice.map(function(post) {
       var img = (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0])
-        ? post._embedded['wp:featuredmedia'][0].source_url : '';
+        ? post._embedded['wp:featuredmedia'][0].source_url.replace('https://www.medicinskaskola.rs', 'https://medicinskaskola.rs') : '';
       var date = new Date(post.date).toLocaleDateString('sr-Latn', {day:'numeric', month:'long', year:'numeric'});
       var title = post.title.rendered.replace(/<[^>]+>/g, '');
       var excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().substring(0, 130) + '…';
